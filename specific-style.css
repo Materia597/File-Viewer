@@ -1,0 +1,52 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --black: #000;
+
+    --snow: #FCF7F8;
+    --french-gray: #CED3DC;
+    --rose-quartz: #ABA9C3;
+    --denim: #275DAD;
+    --paynes-gray: #5B616A;
+
+    --amber: #FFBE0B;
+    --rose: #FF006E;
+    --blue-violet: #8338EC;
+
+    --light-african-violet: #A393BF;
+    --dark-african-violet: #9882AC;
+    --pomp-and-power: #73648A;
+    --english-violet: #453750;
+    --night: #0C0910;
+}
+
+
+
+body {
+    background: var(--night);
+    font-family:'Courier New', Courier, monospace;
+    color: var(--snow);
+    margin: 0;
+    padding: 10px;
+}
+
+#media-container {
+    display: inline-block;
+    width: 100%;
+    height: 400px;
+    border: var(--french-gray) solid 1px;
+    border-radius: 5px;
+    background: var(--pomp-and-power);
+    padding: 10px;
+    margin: 5px;
+    text-align: center;
+}
+
+.specific-file {
+    display: inline;
+    height: 100%;
+    width: auto;
+}
+

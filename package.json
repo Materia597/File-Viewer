@@ -1,0 +1,19 @@
+{
+  "name": "file-view",
+  "version": "1.0.0",
+  "description": "Allows for the viewing of files in a controled and predictable manner. Formats like .jpg, .png, .gif, .webm, .mp4, and .mkv will be supported",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alteria",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^26.1.0"
+  },
+  "dependencies": {
+    "ffmpeg-static": "^5.2.0",
+    "fluent-ffmpeg": "^2.1.2"
+  }
+}

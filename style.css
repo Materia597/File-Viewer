@@ -1,0 +1,129 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --black: #000;
+
+    --snow: #FCF7F8;
+    --french-gray: #CED3DC;
+    --rose-quartz: #ABA9C3;
+    --denim: #275DAD;
+    --paynes-gray: #5B616A;
+
+    --amber: #FFBE0B;
+    --rose: #FF006E;
+    --blue-violet: #8338EC;
+
+    --light-african-violet: #A393BF;
+    --dark-african-violet: #9882AC;
+    --pomp-and-power: #73648A;
+    --english-violet: #453750;
+    --night: #0C0910;
+}
+
+
+
+body {
+    background: var(--night);
+    font-family:'Courier New', Courier, monospace;
+    color: var(--snow);
+    margin: 0;
+    padding: 10px;
+}
+
+#generic {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+}
+
+button {
+    cursor: pointer;
+    color: var(--snow);
+    border: 1px var(--rose) solid;
+    background:none;
+    border-radius: 5px;
+    font-size: medium;
+}
+
+button:hover {
+    background: var(--english-violet);
+}
+
+#file-output-display {
+    display: grid;
+    min-width: 200px;
+    margin: 15px;
+    padding: 10px;
+    background: var(--english-violet);
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    justify-content: stretch;
+    align-content: stretch;
+    grid-auto-flow: row;
+    border: 1px white solid;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.output-container {
+    display: inline-block;
+    width: 100%;
+    height: fit-content;
+    background: var(--dark-african-violet);
+    border: var(--snow) 1px solid;
+    border-radius: 5px;
+    color: var(--snow);
+    padding: 5px;
+}
+
+.output-container p {
+    background: var(--night);
+    height: 1.5em;
+    border-radius: 5px;
+    display: block;
+    cursor: pointer;
+}
+
+.file-output {
+    display: inline-block;
+    width: 100%;
+    height:fit-content;
+    min-height:40px;
+    text-align: center;
+    justify-self: stretch;
+    align-self:stretch;
+    background: var(--black);
+    border-radius: 5px;
+}
+
+video.file-output {
+    border: var(--denim) solid 2px;
+}
+
+image.file-output {
+    border: var(--amber) solid 2px;
+}
+
+#ouput-container {
+    text-align: center;
+}
+
+#error-message {
+    color: var(--rose);
+}
+
+#to-top {
+    visibility: hidden;
+}
+
+@media screen and (min-width: 1000px) {
+    #file-output-display {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        
+    }
+}

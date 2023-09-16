@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Viewer</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <h1>File Viewer</h1>
+
+    <div id="settings">
+        <div id="generic">
+            
+            <div>
+                <button id="go">Go</button>
+                Get Files
+            </div>
+            
+            <div>
+                <button id="btn">Select</button>
+                FilePath <strong id="filePath"></strong>
+            </div>
+            
+            <button id="clear">Clear</button>
+        </div>
+
+        <div id="advanced-settings">
+            <label for="output-limit">
+                Limit
+                <input type="range" name="output-limit" id="output-limit" min="0" max="100" value="0">
+                <span id="limit-value">0</span>
+            </label>
+
+            <label for="output-offset">
+                Offset
+                <input type="text" name="output-offset" id="output-offset">
+            </label>
+
+            <label for="display-style">
+                Display Style
+                <select name="display-style" id="display-style">
+                    <option value="Seperate">Separate</option>
+                    <option value="Collection">Collection</option>
+                    <option value="Comic">Comic</option>
+                </select>
+            </label>
+
+            <div id="filter-options">
+                Filter:
+                <label for="allow-images">
+                    Images:
+                    <input type="checkbox" name="allow-images" id="allow-images" checked>
+                </label>
+                
+                <label for="allow-videos">
+                    Videos:
+                    <input type="checkbox" name="allow-videos" id="allow-videos" checked>
+                </label>
+                
+                <label for="allow-gifs">
+                    Gifs:
+                    <input type="checkbox" name="allow-gifs" id="allow-gifs" checked>
+                </label>
+                
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Ouput Area -->
+    <div id="ouput-container">
+        <div id="error-message"></div>
+        <div id="file-output-display"></div>
+        <div id="collection-display"></div>
+        <button id="to-top">To Top</button>
+    </div>
+
+
+</body>
+
+<script src="./renderer.js"></script>
+
+
+
+</html>
