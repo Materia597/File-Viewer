@@ -21,6 +21,12 @@ contextBridge.exposeInMainWorld('newWindow', {
     getFullFile: () => ipcRenderer.invoke('get:full-file')
 })
 
+contextBridge.exposeInMainWorld('carouselWindow', {
+    newInstance: (directory) => ipcRenderer.send('new:carousel-window', directory),
+    getData: () => ipcRenderer.send('get:carousel-data'),
+    receiveData: (callback) => ipcRenderer.on('receive:carousel-data', callback)
+})
+
 contextBridge.exposeInMainWorld('changeFiles', {
     convert: (filePath, newFormat) => ipcRenderer.send('change:file:convert-format', filePath, newFormat)
 })

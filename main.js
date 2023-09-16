@@ -11,6 +11,9 @@ ffmpeg.setFfmpegPath(ffmpegStatic);
 
 
 let tempFullFileAccess;
+let carouselSlidesDirect;
+
+
 
 async function handleFolderOpen() {
     const {canceled, filePaths} = await dialog.showOpenDialog({properties: ['openDirectory']})
@@ -63,6 +66,34 @@ ipcMain.on('tranfer/start:file', (_event, fullFile) => {
 })
 
 
+
+ipcMain.on('new:carousel-window', (_event, direct) => {
+    carouselWindow()
+    carouselSlidesDirect = direct
+})
+
+ipcMain.on('get:carousel-data', (_event) => {
+    let files = fs.readdirSync(carouselSlidesDirect)
+    let filesFull = []
+    files.forEach(file => {
+        filesFull.push({
+            fullPath: path.resolve(carouselSlidesDirect, file),
+            name: file,
+            extension: path.extname(file)
+        })
+    })
+
+    let validExtension = ['.gif', '.mp4', '.webm', '.png', '.jpg']
+
+    let filesFiltered = []
+    filesFull.forEach(file => {
+        if(validExtension.includes(file.extension)) {
+            filesFiltered.push(file)
+        }
+    })    
+
+    _event.reply('receive:carousel-data', filesFiltered)
+})
 
 
 ipcMain.on('open:specific-empty', (_event) => {
@@ -129,6 +160,18 @@ const specificWindow = () => {
     })
 
     specWin.loadFile('media-viewer.html')
+}
+
+const carouselWindow = () => {
+    const carWin = new BrowserWindow({
+        width: 800,
+        height: 600,
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js')
+        }
+    })
+
+    carWin.loadFile('carousel-window.html')
 }
 
 
