@@ -60,24 +60,25 @@ ipcMain.on('files:getFiles', (_event, direct) => {
     _event.reply('files:receiveFiles' ,filePaths )
 })
 
-ipcMain.on('tranfer/start:file', (_event, fullFile) => {
-    console.log(`received ${fullFile} via \'transfer:file\'`)
-    _event.reply('transfer/end:file', fullFile)
-})
 
-
+//--------------------------------------------------------------------------------------------------------------------
+//Carousel window code
 
 ipcMain.on('new:carousel-window', (_event, direct) => {
     carouselWindow()
+    console.log(direct)
     carouselSlidesDirect = direct
 })
 
 ipcMain.on('get:carousel-data', (_event) => {
-    let files = fs.readdirSync(carouselSlidesDirect)
+    console.log(carouselSlidesDirect)
+    let direct = decodeURI(carouselSlidesDirect)
+    console.log(direct)
+    let files = fs.readdirSync(direct)
     let filesFull = []
     files.forEach(file => {
         filesFull.push({
-            fullPath: path.resolve(carouselSlidesDirect, file),
+            fullPath: path.resolve(direct, file),
             name: file,
             extension: path.extname(file)
         })
@@ -90,11 +91,17 @@ ipcMain.on('get:carousel-data', (_event) => {
         if(validExtension.includes(file.extension)) {
             filesFiltered.push(file)
         }
-    })    
+    })
+
+    if(filesFull.length === 0) _event.reply('error', "There are no files of acceptible type in the selected folder")
 
     _event.reply('receive:carousel-data', filesFiltered)
 })
 
+
+
+//--------------------------------------------------------------------------------------------------------------------
+//Specific Window code
 
 ipcMain.on('open:specific-empty', (_event) => {
     specificWindow()
@@ -138,6 +145,8 @@ const videoConvert = (file, newFormat) => {
         .on('error', (error) => {console.error(error)})
 }
 
+//--------------------------------------------------------------------------------------------------------------------
+//Window types
 const createWindow = () => {
     const win = new BrowserWindow({
         width: 800,
@@ -175,6 +184,8 @@ const carouselWindow = () => {
 }
 
 
+//--------------------------------------------------------------------------------------------------------------------
+//Electron stuff
 app.whenReady().then(() => {
     ipcMain.handle('dialog:openFolder', handleFolderOpen)
     ipcMain.handle('dialog:openFile', handleFileOpen)

@@ -11,7 +11,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     openFolder: () => ipcRenderer.invoke('dialog:openFolder'),
     openFile: () => ipcRenderer.invoke('dialog:openFile'),
     getFiles: (direct) => ipcRenderer.send('files:getFiles', direct),
-    receiveFiles: (callback) => ipcRenderer.on('files:receiveFiles', callback)
+    receiveFiles: (callback) => ipcRenderer.on('files:receiveFiles', callback),
+    errorMessage: (callback) => ipcRenderer.on('error', callback)
 })
 
 contextBridge.exposeInMainWorld('newWindow', {

@@ -14,6 +14,8 @@ const allowImages = document.getElementById('allow-images')
 const allowVideos = document.getElementById('allow-videos')
 const allowGifs = document.getElementById('allow-gifs')
 
+const displayStyle = document.getElementById('display-style')
+
 
 document.getElementById('filter-options').style.display = "none"
 
@@ -63,7 +65,9 @@ const openMedia = (fullFile) => {
 
 
 
-
+const openCarousel = (directory = filePathElement.innerText) => {
+    window.carouselWindow.newInstance(directory)
+}
 
 
 
@@ -85,6 +89,31 @@ function getFiles(direct) {     //Calls the function in main.js responsible for 
 window.electronAPI.receiveFiles((_event, files) => {
     //console.log(files)
 
+    switch(displayStyle.value) {
+        case "Seperate":
+            let finalIn = doFileChecks(files)
+            formatFilesDefault(finalIn[0], finalIn[1], finalIn[2])
+            break;
+        case "Collection":
+        case "Comic":
+            openCarousel();
+    }
+
+    
+
+    
+
+    console.log('here')
+})
+
+
+window.electronAPI.errorMessage((_event, message) => {
+    errorArea.innerText = message;
+})
+
+
+
+const doFileChecks = (files) => {
     //checks if the limit value is set to 0, if so then no limit is applied, otherwise there is a max value for the number of outputs
     let limit = outputLimit.value
     if(limit == 0) {limit = files.length - 1}
@@ -120,13 +149,9 @@ window.electronAPI.receiveFiles((_event, files) => {
         return;
     }
 
+    return [outputFiles, limit, start]
+}
 
-    formatFilesDefault(outputFiles, limit, start)
-
-    
-
-    console.log('here')
-})
 
 const formatFilesDefault = (fileList, limit, start) => {
     //creates the outputs and places them into the output area if they exist
