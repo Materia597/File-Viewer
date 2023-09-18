@@ -82,7 +82,9 @@ function getFiles(direct) {     //Calls the function in main.js responsible for 
 }
 
 
-
+const showError = (message = "") => {
+    errorArea.innerText = message
+}
 
 
 //handles what happens with the outputs from the getFiles() function
@@ -137,15 +139,18 @@ const doFileChecks = (files) => {
     })
 
     //if the offset value is so large that no output would be drawn, then this error is thrown
+    
     if(outputFiles[start] === undefined && start !== 0) {
-        errorArea.innerText = "Offset value is too large and no output can be shown"
+        //errorArea.innerText = "Offset value is too large and no output can be shown"
+        showError("Offset Value was too large and no output can be shown")
         return;
     }
 
     //if there are no files that have a recognized extension, then this error is thrown
     if(outputFiles[start] === undefined && start == 0)
     {
-        errorArea.innerText = "There are no recognized files in this folder"
+        //errorArea.innerText = "There are no recognized files in this folder"
+        showError("There are no recognized files in this folder")
         return;
     }
 

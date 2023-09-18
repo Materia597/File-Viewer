@@ -71,9 +71,9 @@ ipcMain.on('new:carousel-window', (_event, direct) => {
 })
 
 ipcMain.on('get:carousel-data', (_event) => {
-    console.log(carouselSlidesDirect)
+    
     let direct = decodeURI(carouselSlidesDirect)
-    console.log(direct)
+
     let files = fs.readdirSync(direct)
     let filesFull = []
     files.forEach(file => {
