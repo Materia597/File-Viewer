@@ -40,7 +40,10 @@ window.carouselWindow.receiveData((_event, fileList) => {
         let startTag = "<li class='slide'>"
         let closeTag = "</li>"
         let inner;
-        switch(file.extension) {
+
+        let ex = file.extension
+
+        switch(ex.toLowerCase()) {
             case '.mp4':
             case '.webm':
                 inner = `<video src='${file.fullPath}' controls></video>`

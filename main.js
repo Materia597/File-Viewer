@@ -84,14 +84,18 @@ ipcMain.on('get:carousel-data', (_event) => {
         })
     })
 
+    console.log(filesFull)
+
     let validExtension = ['.gif', '.mp4', '.webm', '.png', '.jpg']
 
     let filesFiltered = []
     filesFull.forEach(file => {
-        if(validExtension.includes(file.extension)) {
+        if(validExtension.includes((file.extension).toLowerCase())) {
             filesFiltered.push(file)
         }
     })
+    console.log("----------------------------------------------------------")
+    console.log(filesFiltered)
 
     if(filesFull.length === 0) _event.reply('error', "There are no files of acceptible type in the selected folder")
 
