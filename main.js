@@ -36,13 +36,12 @@ async function handleFileOpen() {
         extension: extension
     }
 
-    console.log(returnObject)
+    //console.log(returnObject)
 
     return returnObject
 }
 
 ipcMain.on('files:getFiles', (_event, direct) => {
-    console.log("received")
     
     let files = fs.readdirSync(direct)
     let filePaths = []
@@ -66,7 +65,6 @@ ipcMain.on('files:getFiles', (_event, direct) => {
 
 ipcMain.on('new:carousel-window', (_event, direct) => {
     carouselWindow()
-    console.log(direct)
     carouselSlidesDirect = direct
 })
 

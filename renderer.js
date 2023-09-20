@@ -34,7 +34,7 @@ clearOuput.addEventListener('click', () => {
 
 btn.addEventListener('click', async () => {
     const filePath = await window.electronAPI.openFolder()
-    console.log(filePath)
+    //console.log(filePath)
     if (filePath === undefined) filePath = "";
     errorArea.innerText = ""
     filePathElement.innerText = filePath
@@ -105,11 +105,6 @@ window.electronAPI.receiveFiles((_event, files) => {
             openCarousel();
     }
 
-    
-
-    
-
-    console.log('here')
 })
 
 
