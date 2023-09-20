@@ -15,6 +15,10 @@ const fillCarousel = () => {
 
             slides.children[newIndex].dataset.active = true
             delete activeSlide.dataset.active
+
+            slides.querySelectorAll("video").forEach(video => {
+                video.pause()
+            })
         })
     })
 

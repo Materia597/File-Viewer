@@ -45,9 +45,13 @@ goButton.addEventListener('click', () => {
         errorArea.innerText = "Please select a folder to open"
         return;
     };
-    toTopButton.style.visibility = "visible";
-    outputArea.innerHTML = ""
-    errorArea.innerText = ""
+
+    if(displayStyle.value == "Seperate") {
+        toTopButton.style.visibility = "visible";
+        outputArea.innerHTML = ""
+        errorArea.innerText = ""
+    }
+    
     getFiles(filePathElement.innerText)
 })
 
