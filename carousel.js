@@ -21,15 +21,6 @@ const fillCarousel = () => {
             })
         })
     })
-
-    
-    /* for the initialization step
-    buttons[0]
-        .closest("[data-carousel]")
-        .querySelector("[data-slides]")
-        .children[0]
-        .dataset.active = true
-    */
 }
 
 const getCarouselFiles = () => {

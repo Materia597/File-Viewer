@@ -17,7 +17,7 @@ const allowGifs = document.getElementById('allow-gifs')
 const displayStyle = document.getElementById('display-style')
 
 
-document.getElementById('filter-options').style.display = "none"
+//document.getElementById('filter-options').style.display = "none"
 
 
 outputLimit.oninput = () => {
@@ -41,8 +41,8 @@ btn.addEventListener('click', async () => {
 })
 
 goButton.addEventListener('click', () => {
-    if(filePathElement.innerText === "") {
-        errorArea.innerText = "Please select a folder to open"
+    if(filePathElement.innerText === "") { 
+        showError("Please Select a folder to open");
         return;
     };
 
@@ -98,6 +98,7 @@ window.electronAPI.receiveFiles((_event, files) => {
     switch(displayStyle.value) {
         case "Seperate":
             let finalIn = doFileChecks(files)
+            if(!finalIn) break;
             formatFilesDefault(finalIn[0], finalIn[1], finalIn[2])
             break;
         case "Collection":
@@ -153,29 +154,33 @@ const doFileChecks = (files) => {
         return;
     }
 
+
     return [outputFiles, limit, start]
 }
 
 
+
 const formatFilesDefault = (fileList, limit, start) => {
+    console.log(allowVideos.value === "on")
     //creates the outputs and places them into the output area if they exist
     for(let index = start; index <= limit + start && fileList[index]; index++) {
-        //console.log(index)
+        console.log(index)
+        console.log(limit+start)
         switch(fileList[index].extension) {
             case ".mp4":
             case ".webm":
-                if (!allowVideos.value === "on") break;
-                elementString = `<video class="local-video file-output" src="${fileList[index].fullPath}" controls></video>`              
+                if (!allowVideos.checked) continue
+                elementString = `<video class="local-video file-output" src="${fileList[index].fullPath}" controls></video>`      
                 break;
             case ".png":
             case ".jpg":
             case ".JPG":
-                if (!allowImages.value === "on") break;
-                elementString = `<img class='local-image file-output' src="${fileList[index].fullPath}">`           
+                if (!allowImages.checked) continue
+                elementString = `<img class='local-image file-output' src="${fileList[index].fullPath}">`                         
                 break;
             case ".gif":
-                if (!allowGifs.value === "on") break;
-                elementString = `<img class='local-image file-output' src="${fileList[index].fullPath}" repeat>`               
+                if (!allowGifs.checked) continue;
+                elementString = `<img class='local-image file-output' src="${fileList[index].fullPath}" repeat>`                               
                 break;
             default:
                 //console.log(`"${files[index].extension}" is not a supported file extension`)
@@ -183,6 +188,11 @@ const formatFilesDefault = (fileList, limit, start) => {
         }
 
         outputArea.insertAdjacentHTML('beforeend', `<div class="output-container">${elementString}<p onclick="window.newWindow.specificNew(\`${new URL(fileList[index].fullPath)}\`)">Open</p></div>`)
+    }
+
+    if(outputArea.children.length === 0) {
+        toTopButton.style.visibility = "hidden";
+        showError("Your filter has resulted in no files being shown")
     }
 }
 
