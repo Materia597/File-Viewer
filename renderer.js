@@ -155,23 +155,24 @@ const doFileChecks = (files) => {
     //console.log(start)
 
     //creates the recognized file extensions and the files that have these extensions
+    /*
     let acceptedExt = [".mp4", ".webm", ".png", ".jpg", ".JPG", ".gif"]
     let outputFiles = []
 
     files.forEach(file => {
         if(acceptedExt.includes(file.extension)) outputFiles.push(file)
     })
-
+    */
     //if the offset value is so large that no output would be drawn, then this error is thrown
     
-    if(outputFiles[start] === undefined && start !== 0) {
+    if(files[start] === undefined && start !== 0) {
         //errorArea.innerText = "Offset value is too large and no output can be shown"
         showError("Offset Value was too large and no output can be shown")
         return;
     }
 
     //if there are no files that have a recognized extension, then this error is thrown
-    if(outputFiles[start] === undefined && start == 0)
+    if(files[start] === undefined && start == 0)
     {
         //errorArea.innerText = "There are no recognized files in this folder"
         showError("There are no recognized files in this folder")
@@ -179,7 +180,7 @@ const doFileChecks = (files) => {
     }
 
 
-    return [outputFiles, limit, start]
+    return [files, limit, start]
 }
 
 
@@ -216,6 +217,12 @@ imageEnable.addEventListener('change', () => {
 
 
 const formatFilesDefault = (fileList, limit, start) => {
+
+    if(fileList.length === 0) {
+        showError("Your filter has resulted in zero files being output.")
+        return;
+    }
+
     //creates the outputs and places them into the output area if they exist
     for(let index = start; index <= limit + start && fileList[index]; index++) {
         //console.log(index)
