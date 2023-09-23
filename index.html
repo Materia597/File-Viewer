@@ -26,28 +26,112 @@
         </div>
 
         <div id="advanced-settings">
-            <label for="output-limit">
-                Limit
-                <input type="range" name="output-limit" id="output-limit" min="0" max="100" value="0">
-                <span id="limit-value">0</span>
-            </label>
 
-            <label for="output-offset">
-                Offset
-                <input type="text" name="output-offset" id="output-offset">
-            </label>
+            <button id="setting-toggle" style="display: block; width: 100%; text-align: right;">&#10095;</button>
 
-            <label for="display-style">
-                Display Style
-                <select name="display-style" id="display-style">
-                    <option value="Seperate">Separate</option>
-                    <option value="Collection">Collection</option>
-                    <option value="Comic">Comic</option>
-                </select>
-            </label>
+            <div id="ouput-manipulation">
+                <label for="output-limit">
+                    Limit
+                    <input type="range" name="output-limit" id="output-limit" min="0" max="100" value="0">
+                    <span id="limit-value">0</span>
+                </label>
+    
+                <label for="output-offset">
+                    Offset
+                    <input type="text" name="output-offset" id="output-offset">
+                </label>
+            </div>
+            
+            <div id="ouput-format">
+                <label for="display-style">
+                    Display Style
+                    <select name="display-style" id="display-style">
+                        <option value="Seperate">Separate</option>
+                        <option value="Collection">Collection</option>
+                        <option value="Comic">Comic</option>
+                    </select>
+                </label>
+            </div>
+            
 
             <div id="filter-options">
                 Filter:
+
+                <table id="filter-table">
+                    <tbody>
+                        <colgroup>
+                            <col>
+                        </colgroup>
+                        <tr>
+                            <td>
+                                <label for="allow-images">
+                                    Images
+                                    <input type="checkbox" name="allow-images" id="media:allow-images" checked>
+                                </label>
+                            </td>
+                            <td>
+                                <label for="allow-.jpg">
+                                    .jpg
+                                    <input type="checkbox" name="allow-.jpg" id="format:allow-jpg" data-format=".jpg" data-image-format checked>
+                                </label>
+                            </td>
+                            <td>
+                                <label for="allow-.png">
+                                    .png
+                                    <input type="checkbox" name="allow-.png" id="format:allow-png" data-format=".png" data-image-format checked>
+                                </label>
+                            </td>
+                            <td>
+                                <label for="allow-gif">
+                                    .gif
+                                    <input type="checkbox" name="allow-gifs" id="format:allow-gif" data-format=".gif" data-image-format checked>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <!--Video filter-->
+                                <label for="allow-videos">
+                                    Videos
+                                    <input type="checkbox" name="allow-videos" id="media:allow-videos" checked>
+                                </label>
+                            </td>
+                            <td>
+                                <label for="allow-.mp4">
+                                    .mp4
+                                    <input type="checkbox" name="allow-.mp4" id="format:allow-mp4" data-format=".mp4" data-video-format checked>
+                                </label>
+                            </td>
+                            <td>
+                                <label for="allow-.webm">
+                                    .webm
+                                    <input type="checkbox" name="allow-.webm" id="format:allow-webm" data-format=".webm" data-video-format checked>
+                                </label>
+                            </td>
+                            <td>
+                                <label for="allow-.avi">
+                                    .avi
+                                    <input type="checkbox" name="allow-.avi" id="format:allow-avi" data-format=".avi" data-video-format checked>
+                                </label>
+                            </td>
+                            <td>
+                                <label for="allow-.mov">
+                                    .mov
+                                    <input type="checkbox" name="allow-.mov" id="format:allow-mov" data-format=".mov" data-video-format checked>
+                                </label>
+                            </td>
+                            <td>
+                                <label for="allow-.wmv">
+                                    .wmv
+                                    <input type="checkbox" name="allow-.wmv" id="format:allow-wmv" data-format=".wmv" data-video-format checked>
+                                </label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--
+
+                
                 <label for="allow-images">
                     Images:
                     <input type="checkbox" name="allow-images" id="allow-images" checked>
@@ -63,6 +147,7 @@
                     <input type="checkbox" name="allow-gifs" id="allow-gifs" checked>
                 </label>
                 
+                -->
             </div>
         </div>
 

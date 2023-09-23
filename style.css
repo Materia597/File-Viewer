@@ -54,6 +54,14 @@ button:hover {
     background: var(--english-violet);
 }
 
+#advanced-settings {
+    background: var(--black);
+    display: block;
+    border: 1px var(--french-gray) solid;
+    font-size: medium;
+}
+
+
 #file-output-display {
     display: grid;
     min-width: 200px;
@@ -126,4 +134,22 @@ image.file-output {
         grid-template-columns: 1fr 1fr 1fr 1fr;
         
     }
+}
+
+
+
+
+
+#filter-table {
+    border-collapse: collapse;
+}
+
+#filter-table td, #filter-table th {
+    border: 1px var(--english-violet) solid;
+    background: var(--night);
+    text-align:center;
+}
+
+#filter-table td[data-disabled="true"] {
+    background: var(--paynes-gray);
 }

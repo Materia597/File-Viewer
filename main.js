@@ -41,7 +41,58 @@ async function handleFileOpen() {
     return returnObject
 }
 
-ipcMain.on('files:getFiles', (_event, direct) => {
+const getFilesByFilter = (filterObject) => {
+    let directory = filterObject.directory
+    let fileFormats = []
+    if(!filterObject.filter.videos.disabled) {
+        filterObject.filter.videos.formats.forEach(format => fileFormats.push(format))
+    }
+    if(!filterObject.filter.images.disabled) {
+        filterObject.filter.images.formats.forEach(format => fileFormats.push(format))
+    }
+
+    let filesUnfiltered = fs.readdirSync(directory)
+    let filteredFilesList = []
+    filesUnfiltered.forEach(file => {
+        let fullPath = path.resolve(directory, file)
+        let extension = path.extname(fullPath)
+        if(fileFormats.includes(extension)) {
+            filteredFilesList.push(
+                {
+                    fullPath: fullPath,
+                    name: file,
+                    extension: extension
+                }
+            )
+        }
+    })
+
+    return filteredFilesList
+}
+
+
+/*
+    {
+        directory: direct,
+        limit: num \(if 0 then nothing applied\),
+        filter: {
+            videos: {
+                disabled: false,
+                formats: [".mp4", ".webm"]
+            },
+            images: {
+                disabled: false,
+                formats: [".jpg", ".png", ".gif"]
+            }
+        }
+    }
+*/
+
+
+ipcMain.on('files:getFiles', (_event, filter) => {
+    
+    _event.reply('files:receiveFiles', getFilesByFilter(filter))
+    return;
     
     let files = fs.readdirSync(direct)
     let filePaths = []

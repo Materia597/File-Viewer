@@ -10,10 +10,6 @@ const errorArea = document.getElementById('error-message')
 const toTopButton = document.getElementById('to-top')
 const outputOffset = document.getElementById('output-offset')
 
-const allowImages = document.getElementById('allow-images')
-const allowVideos = document.getElementById('allow-videos')
-const allowGifs = document.getElementById('allow-gifs')
-
 const displayStyle = document.getElementById('display-style')
 
 
@@ -52,7 +48,35 @@ goButton.addEventListener('click', () => {
         errorArea.innerText = ""
     }
     
-    getFiles(filePathElement.innerText)
+    imageFormats = []
+    document.querySelectorAll("[data-image-format]").forEach(format => {
+        if(format.checked) imageFormats.push(format.dataset.format)
+    } )
+
+    videoFormats = []
+    document.querySelectorAll("[data-video-format]").forEach(format => {
+        if(format.checked) videoFormats.push(format.dataset.format)
+    })
+
+    let filterObject = {
+        directory: filePathElement.innerText,
+        limit: null,
+        filter: {
+            videos: {
+                disabled: !videoEnable.checked,
+                formats: videoFormats
+            },
+            images: {
+                disabled: !imageEnable.checked,
+                formats: imageFormats
+            }
+        }
+    }
+
+    console.log(filterObject)
+
+    //getFiles(filePathElement.innerText)
+    getFiles(filterObject)
 })
 
 
@@ -160,26 +184,56 @@ const doFileChecks = (files) => {
 
 
 
+const videoEnable = document.getElementById('media:allow-videos')
+const imageEnable = document.getElementById('media:allow-images')
+
+const allow_jpg = document.getElementById('format:allow-jpg')
+const allow_png = document.getElementById('format:allow-png')
+const allow_gif = document.getElementById('format:allow-gif')
+
+const allow_mp4 = document.getElementById('format:allow-mp4')
+const allow_webm = document.getElementById('format:allow-webm')
+const allow_avi = document.getElementById('format:allow-avi')
+const allow_mov = document.getElementById('format:allow-mov')
+const allow_wmv = document.getElementById('format:allow-awmv')
+
+videoEnable.addEventListener('change', () => {
+    let videoOptions = document.querySelectorAll('[data-video-format]')
+    videoOptions.forEach(option => {
+        option.disabled = !videoEnable.checked
+        option.closest('td').dataset.disabled = !videoEnable.checked
+    })
+})
+
+imageEnable.addEventListener('change', () => {
+    let imageOptions = document.querySelectorAll('[data-image-format]')
+    imageOptions.forEach(option => {
+        option.disabled = !imageEnable.checked
+        option.closest('td').dataset.disabled = !imageEnable.checked
+    })
+    
+})
+
+
 const formatFilesDefault = (fileList, limit, start) => {
-    console.log(allowVideos.value === "on")
     //creates the outputs and places them into the output area if they exist
     for(let index = start; index <= limit + start && fileList[index]; index++) {
-        console.log(index)
-        console.log(limit+start)
+        //console.log(index)
+        //console.log(limit+start)
         switch(fileList[index].extension) {
             case ".mp4":
             case ".webm":
-                if (!allowVideos.checked) continue
+                if (!videoEnable.checked) continue
                 elementString = `<video class="local-video file-output" src="${fileList[index].fullPath}" controls></video>`      
                 break;
             case ".png":
             case ".jpg":
             case ".JPG":
-                if (!allowImages.checked) continue
+                if (!imageEnable.checked) continue
                 elementString = `<img class='local-image file-output' src="${fileList[index].fullPath}">`                         
                 break;
             case ".gif":
-                if (!allowGifs.checked) continue;
+                if (!allow_gif.checked) continue;
                 elementString = `<img class='local-image file-output' src="${fileList[index].fullPath}" repeat>`                               
                 break;
             default:
