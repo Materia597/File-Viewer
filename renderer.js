@@ -43,7 +43,7 @@ goButton.addEventListener('click', () => {
     };
 
     if(displayStyle.value == "Seperate") {
-        toTopButton.style.visibility = "visible";
+        
         outputArea.innerHTML = ""
         errorArea.innerText = ""
     }
@@ -124,6 +124,7 @@ window.electronAPI.receiveFiles((_event, files) => {
             let finalIn = doFileChecks(files)
             if(!finalIn) break;
             formatFilesDefault(finalIn[0], finalIn[1], finalIn[2])
+            toTopButton.style.visibility = "visible";
             break;
         case "Collection":
         case "Comic":
@@ -144,6 +145,11 @@ const doFileChecks = (files) => {
     let limit = outputLimit.value
     if(limit == 0) {limit = files.length - 1}
 
+    if(files.length === 0) {
+        showError("Your filter has resulted in no files being shown.")
+        return;
+    }
+
     //start is the value defined by offset, this converts the value typed into a number. If the value isn't a number, it's set to 0
     let start;
     try {
@@ -154,15 +160,6 @@ const doFileChecks = (files) => {
     if(start === NaN) start = 0
     //console.log(start)
 
-    //creates the recognized file extensions and the files that have these extensions
-    /*
-    let acceptedExt = [".mp4", ".webm", ".png", ".jpg", ".JPG", ".gif"]
-    let outputFiles = []
-
-    files.forEach(file => {
-        if(acceptedExt.includes(file.extension)) outputFiles.push(file)
-    })
-    */
     //if the offset value is so large that no output would be drawn, then this error is thrown
     
     if(files[start] === undefined && start !== 0) {
