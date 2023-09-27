@@ -32,13 +32,16 @@
             <div id="ouput-manipulation">
                 <label for="output-limit">
                     Limit
-                    <input type="range" name="output-limit" id="output-limit" min="0" max="100" value="0">
+                    <input type="number" name="output-limit" id="output-limit" min="0" value="0">
                     <span id="limit-value">0</span>
                 </label>
     
                 <label for="output-offset">
                     Offset
+                    <!--
                     <input type="text" name="output-offset" id="output-offset">
+                    -->
+                    <input type="number" name="output-offset" id="output-offset" min="0" value="0">
                 </label>
             </div>
             
@@ -52,7 +55,7 @@
                     </select>
                 </label>
             </div>
-            
+            <br>
 
             <div id="filter-options">
                 Filter:

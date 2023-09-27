@@ -60,7 +60,8 @@ goButton.addEventListener('click', () => {
 
     let filterObject = {
         directory: filePathElement.innerText,
-        limit: null,
+        limit: outputLimit.value,
+        offset: outputOffset.value,
         filter: {
             videos: {
                 disabled: !videoEnable.checked,
@@ -73,7 +74,7 @@ goButton.addEventListener('click', () => {
         }
     }
 
-    console.log(filterObject)
+    //console.log(filterObject)
 
     //getFiles(filePathElement.innerText)
     getFiles(filterObject)
@@ -142,8 +143,8 @@ window.electronAPI.errorMessage((_event, message) => {
 
 const doFileChecks = (files) => {
     //checks if the limit value is set to 0, if so then no limit is applied, otherwise there is a max value for the number of outputs
-    let limit = outputLimit.value
-    if(limit == 0) {limit = files.length - 1}
+    let limit = Number(outputLimit.value)
+    if(limit === 0) {limit = files.length - 1}
 
     if(files.length === 0) {
         showError("Your filter has resulted in no files being shown.")
@@ -156,6 +157,7 @@ const doFileChecks = (files) => {
         start = Number(outputOffset.value)
     } catch (error) {
         console.log(error)
+        start = 0;
     }
     if(start === NaN) start = 0
     //console.log(start)
@@ -219,9 +221,10 @@ const formatFilesDefault = (fileList, limit, start) => {
         showError("Your filter has resulted in zero files being output.")
         return;
     }
-
+    let elementString;
+    //console.log(fileList[0])
     //creates the outputs and places them into the output area if they exist
-    for(let index = start; index <= limit + start && fileList[index]; index++) {
+    for(let index = start; index < limit + start && fileList[index]; index++) {
         //console.log(index)
         //console.log(limit+start)
         switch(fileList[index].extension) {
@@ -233,6 +236,7 @@ const formatFilesDefault = (fileList, limit, start) => {
             case ".png":
             case ".jpg":
             case ".JPG":
+            case ".PNG":
                 if (!imageEnable.checked) continue
                 elementString = `<img class='local-image file-output' src="${fileList[index].fullPath}">`                         
                 break;

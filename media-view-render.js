@@ -8,6 +8,7 @@ const dateAdded = document.getElementById('date-added')
 const insertFile = (fullFile) => {
     console.log('received')
 
+    console.log(fullFile)
     const path = fullFile.path
     const name = fullFile.name
     const extension = fullFile.extension
@@ -16,6 +17,7 @@ const insertFile = (fullFile) => {
         case '.jpg':
         case '.JPG':
         case '.png':
+        case '.PNG':
             mediaContainer.insertAdjacentHTML('beforeend', '<img id="specific-file" class="specific-file specific specific-image">')
             break;
         case '.mp4':
