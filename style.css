@@ -68,10 +68,17 @@ button:hover {
     padding: 10px;
 }
 
+input[type="number"] {
+    background: none;
+    border: 1px var(--snow) solid;
+    border-radius: 5px;
+    color: var(--snow);
+    padding: 0 5px;
+}
 
 #file-output-display {
     display: grid;
-    min-width: 200px;
+    min-width: 600px;
     margin: 15px;
     padding: 10px;
     background: var(--english-violet);

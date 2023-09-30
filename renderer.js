@@ -4,7 +4,6 @@ const filePathElement = document.getElementById('filePath')
 const outputArea = document.getElementById("file-output-display")
 const goButton = document.getElementById('go')
 const outputLimit = document.getElementById('output-limit')
-const limitDisplay = document.getElementById('limit-value')
 const clearOuput = document.getElementById('clear')
 const errorArea = document.getElementById('error-message')
 const toTopButton = document.getElementById('to-top')
@@ -15,10 +14,6 @@ const displayStyle = document.getElementById('display-style')
 
 //document.getElementById('filter-options').style.display = "none"
 
-
-outputLimit.oninput = () => {
-    limitDisplay.innerHTML = outputLimit.value
-}
 
 clearOuput.addEventListener('click', () => {
     toTopButton.style.visibility = "hidden"
@@ -144,7 +139,7 @@ window.electronAPI.errorMessage((_event, message) => {
 const doFileChecks = (files) => {
     //checks if the limit value is set to 0, if so then no limit is applied, otherwise there is a max value for the number of outputs
     let limit = Number(outputLimit.value)
-    if(limit === 0) {limit = files.length - 1}
+    if(limit === 0) {limit = files.length}
 
     if(files.length === 0) {
         showError("Your filter has resulted in no files being shown.")
@@ -216,6 +211,8 @@ imageEnable.addEventListener('change', () => {
 
 
 const formatFilesDefault = (fileList, limit, start) => {
+
+    console.log(fileList)
 
     if(fileList.length === 0) {
         showError("Your filter has resulted in zero files being output.")
