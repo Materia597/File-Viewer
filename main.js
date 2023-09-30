@@ -44,6 +44,7 @@ async function handleFileOpen() {
 const getFilesByFilter = (filterObject) => {
     let directory = filterObject.directory
     let fileFormats = []
+
     if(!filterObject.filter.videos.disabled) {
         filterObject.filter.videos.formats.forEach(format => fileFormats.push(format))
     }
@@ -53,19 +54,6 @@ const getFilesByFilter = (filterObject) => {
 
     let filesUnfiltered = fs.readdirSync(directory)
     let filteredFilesList = []
-    /*filesUnfiltered.forEach(file => {
-        let fullPath = path.resolve(directory, file)
-        let extension = path.extname(fullPath)
-        if(fileFormats.includes(extension.toLowerCase())) {
-            filteredFilesList.push(
-                {
-                    fullPath: fullPath,
-                    name: file,
-                    extension: extension
-                }
-            )
-        }
-    })*/
 
     for(let index = 0; index < filesUnfiltered.length; index++) {
         let file = filesUnfiltered[index]
@@ -82,29 +70,8 @@ const getFilesByFilter = (filterObject) => {
         }
     }
 
-    let limit = filterObject.limit
-    let offset = filterObject.offset
 
-    let truncatedFiles = []
-
-    //if(limit !== undefined && offset !== undefined) {
-       
-
-    //truncatedFiles = filteredFilesList.slice(offset, limit+ offset)
-        //filteredFilesList = filteredFilesList.slice(offset, limit + offset)
-    //}
-
-    
-
-    console.log(truncatedFiles)
-
-    console.log("limit", limit)
-    console.log("offset", offset)
-
-    console.log(filteredFilesList.slice(offset, limit+ offset))
-    
     return filteredFilesList
-    return truncatedFiles
 }
 
 const getFilesByAdvancedFilter = (filterObject) => {
