@@ -224,7 +224,7 @@ const formatFilesDefault = (fileList, limit, start) => {
     for(let index = start; index < limit + start && fileList[index]; index++) {
         //console.log(index)
         //console.log(limit+start)
-        switch(fileList[index].extension) {
+        switch(fileList[index].extension.toLowerCase()) {
             case ".mp4":
             case ".webm":
                 if (!videoEnable.checked) continue
@@ -232,8 +232,8 @@ const formatFilesDefault = (fileList, limit, start) => {
                 break;
             case ".png":
             case ".jpg":
-            case ".JPG":
-            case ".PNG":
+            //case ".JPG":
+            //case ".PNG":
                 if (!imageEnable.checked) continue
                 elementString = `<img class='local-image file-output' src="${fileList[index].fullPath}">`                         
                 break;
