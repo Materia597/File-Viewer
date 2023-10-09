@@ -12,24 +12,31 @@ const insertFile = (fullFile) => {
     const path = fullFile.path
     const name = fullFile.name
     const extension = fullFile.extension
+    const type = fullFile.type
 
-    switch(extension) {
-        case '.jpg':
-        case '.JPG':
-        case '.png':
-        case '.PNG':
+    if(type === undefined) throw new Error("Type attribute has been set to undefined, this results in no source being displayed")
+
+    switch(type) {
+        case "image":
+            if(extension === ".gif" || extension === ".webp") {
+                mediaContainer.insertAdjacentHTML('beforeend', '<img id="specific-file" class="specific-file specific specific-gif" repeat>')
+                break;
+            }
             mediaContainer.insertAdjacentHTML('beforeend', '<img id="specific-file" class="specific-file specific specific-image">')
             break;
-        case '.mp4':
-        case '.webm':
-            mediaContainer.insertAdjacentHTML('beforeend', '<video id="specific-file" class="specific-file specific specific-image" controls></video>')
+        case "video":
+            mediaContainer.insertAdjacentHTML('beforeend', '<video id="specific-file" class="specific-file specific specific-video" controls></video>')
             break;
-        case '.gif':
-            mediaContainer.insertAdjacentHTML('beforeend', '<img id="specific-file" class="specific-file specific specific-gif" repeat>')
+        case "audio":
+            mediaContainer.insertAdjacentHTML('beforeend', '<audio id="specific-file" class="specific-file specific specific-audio" controls></audio>');
             break;
     }
+    console.log("type:", type)
+
+    
 
     document.getElementById('specific-file').src = path
+    //mediaContainer.src = path
 
     titleBox.innerHTML = name
 }

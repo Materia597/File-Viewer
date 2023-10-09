@@ -17,7 +17,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
 contextBridge.exposeInMainWorld('newWindow', {
     specificEmpty: () => ipcRenderer.send('open:specific-empty'),
-    specificNew: (filePath) => ipcRenderer.send('open:specific-populated', filePath),
+    specificNew: (filePath, type) => ipcRenderer.send('open:specific-populated', filePath, type),
     fileReply: (callback) => ipcRenderer.on('reply:specific-file', callback),
     getFullFile: () => ipcRenderer.invoke('get:full-file')
 })

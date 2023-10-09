@@ -15,6 +15,9 @@
     --rose: #FF006E;
     --blue-violet: #8338EC;
 
+    --imperial-red: #F71735;
+    --periwinkle: #C6D8FF;
+
     --light-african-violet: #A393BF;
     --dark-african-violet: #9882AC;
     --pomp-and-power: #73648A;
@@ -78,8 +81,7 @@ input[type="number"] {
 
 #file-output-display {
     display: grid;
-    min-width: 600px;
-    margin: 15px;
+    margin: 10px;
     padding: 10px;
     background: var(--english-violet);
     grid-template-columns: 1fr 1fr 1fr;
@@ -136,22 +138,41 @@ image.file-output {
 }
 
 #error-message {
-    color: var(--rose);
+    margin: 5px 0;
+    color: var(--imperial-red);
 }
 
 #to-top {
     visibility: hidden;
 }
 
+
+
 @media screen and (min-width: 1000px) {
     #file-output-display {
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-columns: repeat(4, 1fr);
         
     }
 }
 
+@media screen and (min-width: 1600px) {
+    #file-output-display {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+@media screen and (max-width: 700px) {
+    #file-output-display {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
 
 
+#display-style {
+    background: none;
+    background-color: var(--night);
+    color: var(--periwinkle);
+}
 
 
 #filter-table {

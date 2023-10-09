@@ -51,5 +51,14 @@ body {
     max-width: 100%;
     max-height: 100%;
     object-fit:contain;
+    background: #0008;
 }
 
+.specific-audio::-webkit-media-controls-play-button {
+    background-color: var(--snow);
+    border-radius: 50%;
+}
+
+.specific-audio::-webkit-media-controls-panel {
+    background-color: var(--rose-quartz);
+}

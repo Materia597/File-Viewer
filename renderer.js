@@ -19,7 +19,7 @@ clearOuput.addEventListener('click', () => {
     toTopButton.style.visibility = "hidden"
     outputArea.innerHTML = ""
     errorArea.innerText = ""
-    filePathElement.innerText = ""
+    //filePathElement.innerText = ""
 })
 
 
@@ -43,14 +43,19 @@ goButton.addEventListener('click', () => {
         errorArea.innerText = ""
     }
     
-    imageFormats = []
+    let imageFormats = []
     document.querySelectorAll("[data-image-format]").forEach(format => {
         if(format.checked) imageFormats.push(format.dataset.format)
     } )
 
-    videoFormats = []
+    let videoFormats = []
     document.querySelectorAll("[data-video-format]").forEach(format => {
         if(format.checked) videoFormats.push(format.dataset.format)
+    })
+
+    let audioFormats = []
+    document.querySelectorAll("[data-audio-format]").forEach(format => {
+        if(format.checked) audioFormats.push(format.dataset.format)
     })
 
     let filterObject = {
@@ -65,6 +70,10 @@ goButton.addEventListener('click', () => {
             images: {
                 disabled: !imageEnable.checked,
                 formats: imageFormats
+            },
+            audio: {
+                disabled: !audioEnable.checked,
+                formats: audioFormats
             }
         }
     }
@@ -116,8 +125,17 @@ window.electronAPI.receiveFiles((_event, files) => {
     //console.log(files)
 
     switch(displayStyle.value) {
+
         case "Seperate":
-            let finalIn = doFileChecks(files)
+            formatFilesUsingOutsourcedFilter(files.filteredFiles, {
+                videoFormats: files.videoFormats,
+                imageFormats: files.imageFormats,
+                audioFormats: files.audioFormats
+            })
+            toTopButton.style.visibility = "visible"
+            break;
+        case "Seperate":
+            let finalIn = doFileChecks(files.filteredFiles)
             if(!finalIn) break;
             formatFilesDefault(finalIn[0], finalIn[1], finalIn[2])
             toTopButton.style.visibility = "visible";
@@ -181,16 +199,19 @@ const doFileChecks = (files) => {
 
 const videoEnable = document.getElementById('media:allow-videos')
 const imageEnable = document.getElementById('media:allow-images')
+const audioEnable = document.getElementById('media:allow-audio')
 
 const allow_jpg = document.getElementById('format:allow-jpg')
 const allow_png = document.getElementById('format:allow-png')
 const allow_gif = document.getElementById('format:allow-gif')
+const allow_webp = document.getElementById("format:allow-webp")
 
 const allow_mp4 = document.getElementById('format:allow-mp4')
 const allow_webm = document.getElementById('format:allow-webm')
 const allow_avi = document.getElementById('format:allow-avi')
 const allow_mov = document.getElementById('format:allow-mov')
-const allow_wmv = document.getElementById('format:allow-awmv')
+const allow_wmv = document.getElementById('format:allow-wmv')
+const allow_mkv = document.getElementById('format:allow-mkv')
 
 videoEnable.addEventListener('change', () => {
     let videoOptions = document.querySelectorAll('[data-video-format]')
@@ -207,6 +228,14 @@ imageEnable.addEventListener('change', () => {
         option.closest('td').dataset.disabled = !imageEnable.checked
     })
     
+})
+
+audioEnable.addEventListener('change', () => {
+    let audioOptions = document.querySelectorAll('[data-audio-format]')
+    audioOptions.forEach(option => {
+        option.disabled = !audioEnable.checked
+        option.closest('td').dataset.disabled = !audioEnable.checked
+    })
 })
 
 
@@ -227,6 +256,7 @@ const formatFilesDefault = (fileList, limit, start) => {
         switch(fileList[index].extension.toLowerCase()) {
             case ".mp4":
             case ".webm":
+            case ".mkv":
                 if (!videoEnable.checked) continue
                 elementString = `<video class="local-video file-output" src="${fileList[index].fullPath}" controls></video>`      
                 break;
@@ -255,10 +285,45 @@ const formatFilesDefault = (fileList, limit, start) => {
     }
 }
 
+/**
+ * @argument filteredFiles :    The files that were previously filtered, this is an array of object which includes fullPath, name, and extension
+ * @argument filterObject :    The formats that were used as part of the filter, this will be an object like: {videoFormats: [], imageFormats: []}
+ * @description Uses an outsourced filter to use for the formatting in the normal output mode, rather than doing the filtering itself
+ * @returns undefined
+ */
+const formatFilesUsingOutsourcedFilter = (filteredFiles, filterObject) => {
+    console.log(filteredFiles)
+    console.log(filterObject)
+    if(filteredFiles.length === 0) {
+        showError("Your filter has resulted in zero files being output")
+        return;
+    }
 
-
+    filteredFiles.forEach(file => {
+        let ext = file.extension.toLowerCase()
+        let elementString
+        let type
+        if(filterObject.videoFormats.includes(ext)) {
+            if(!videoEnable.checked) return
+            elementString = `<video class="local-video file-output" src="${file.fullPath}" controls></video>`
+            type = "video"
+        }
+        if(filterObject.imageFormats.includes(ext)) {
+            if(!videoEnable.checked) return
+            elementString = `<img class='local-image file-output' src="${file.fullPath}">`
+            if(ext === ".gif" || ext === ".webp") elementString = `<img class='local-image file-output' src="${file.fullPath}" repeat>`
+            type = "image"
+        }
+        if(filterObject.audioFormats.includes(ext)) {
+            if(!audioEnable.checked) return;
+            elementString = `<audio class="local-audio file-output" controls><source src=\"${file.fullPath}\"></audio>`
+            type = "audio"
+        }
+        
+        outputArea.insertAdjacentHTML('beforeend', `<div class="output-container">${elementString}<p onclick="window.newWindow.specificNew(\`${new URL(file.fullPath)}\`, \`${type}\`)">Open</p></div>`)
+    })
+}
 
 const tryNew = () => {
     window.newWindow.specificEmpty()
 }
-

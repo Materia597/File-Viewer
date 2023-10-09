@@ -51,6 +51,9 @@ const getFilesByFilter = (filterObject) => {
     if(!filterObject.filter.images.disabled) {
         filterObject.filter.images.formats.forEach(format => fileFormats.push(format))
     }
+    if(!filterObject.filter.audio.disabled) {
+        filterObject.filter.audio.formats.forEach(format => fileFormats.push(format))
+    }
 
     let filesUnfiltered = fs.readdirSync(directory)
     let filteredFilesList = []
@@ -71,7 +74,13 @@ const getFilesByFilter = (filterObject) => {
     }
 
 
-    return filteredFilesList
+    return {
+        filteredFiles: filteredFilesList,
+        videoFormats: filterObject.filter.videos.formats,
+        imageFormats: filterObject.filter.images.formats,
+        audioFormats: filterObject.filter.audio.formats
+    }
+    //return filteredFilesList
 }
 
 const getFilesByAdvancedFilter = (filterObject) => {
@@ -202,7 +211,7 @@ ipcMain.on('open:specific-empty', (_event) => {
     specificWindow()
 })
 
-ipcMain.on('open:specific-populated', (_event, file) => {
+ipcMain.on('open:specific-populated', (_event, file, type) => {
     specificWindow()
     const fullPath = decodeURI(file)
     const name = path.basename(fullPath)
@@ -211,7 +220,8 @@ ipcMain.on('open:specific-populated', (_event, file) => {
     let fileFull = {
         path: fullPath,
         name: name,
-        extension: ext
+        extension: ext,
+        type: type
     }
 
     tempFullFileAccess = fileFull
@@ -260,6 +270,8 @@ const specificWindow = () => {
     const specWin = new BrowserWindow({
         width: 800,
         height: 600,
+        minWidth: 600,
+        minHeight: 400,
         webPreferences:{
             preload: path.join(__dirname, 'preload.js')
         }
@@ -272,6 +284,8 @@ const carouselWindow = () => {
     const carWin = new BrowserWindow({
         width: 800,
         height: 600,
+        minWidth: 600,
+        minHeight: 400,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js')
         }

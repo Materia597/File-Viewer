@@ -41,9 +41,11 @@ window.carouselWindow.receiveData((_event, fileList) => {
         switch(ex.toLowerCase()) {
             case '.mp4':
             case '.webm':
+            case '.mkv':
                 inner = `<video src="${file.fullPath}" controls></video>`
                 break;
             case '.gif':
+            case '.webp':
                 inner = `<img src="${file.fullPath}" repeat>`
                 break;
             case '.png':
