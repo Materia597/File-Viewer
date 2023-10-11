@@ -9,10 +9,16 @@ const errorArea = document.getElementById('error-message')
 const toTopButton = document.getElementById('to-top')
 const outputOffset = document.getElementById('output-offset')
 
+const pathClearButton = document.getElementById('clear-filePath')
+
 const displayStyle = document.getElementById('display-style')
 
 
 //document.getElementById('filter-options').style.display = "none"
+
+pathClearButton.addEventListener('click', () => {
+    filePathElement.innerText = ""
+})
 
 
 clearOuput.addEventListener('click', () => {
@@ -24,7 +30,7 @@ clearOuput.addEventListener('click', () => {
 
 
 btn.addEventListener('click', async () => {
-    const filePath = await window.electronAPI.openFolder()
+    let filePath = await window.electronAPI.openFolder()
     //console.log(filePath)
     if (filePath === undefined) filePath = "";
     errorArea.innerText = ""
@@ -309,7 +315,7 @@ const formatFilesUsingOutsourcedFilter = (filteredFiles, filterObject) => {
             type = "video"
         }
         if(filterObject.imageFormats.includes(ext)) {
-            if(!videoEnable.checked) return
+            if(!imageEnable.checked) return
             elementString = `<img class='local-image file-output' src="${file.fullPath}">`
             if(ext === ".gif" || ext === ".webp") elementString = `<img class='local-image file-output' src="${file.fullPath}" repeat>`
             type = "image"
@@ -320,7 +326,15 @@ const formatFilesUsingOutsourcedFilter = (filteredFiles, filterObject) => {
             type = "audio"
         }
         
-        outputArea.insertAdjacentHTML('beforeend', `<div class="output-container">${elementString}<p onclick="window.newWindow.specificNew(\`${new URL(file.fullPath)}\`, \`${type}\`)">Open</p></div>`)
+        console.log(file.fullPath)
+
+        
+
+        let corrected = file.fullPath.replace(/[\\]/g, "\\\\")
+        //outputArea.insertAdjacentHTML('beforeend', `<div class="output-container">${elementString}<p onclick="window.newWindow.specificNew(\`${new URL(file.fullPath)}\`, \`${type}\`)">Open</p></div>`)
+    
+        //testing for macos version
+        outputArea.insertAdjacentHTML('beforeend', `<div class="output-container">${elementString}<p onclick="window.newWindow.specificNew(\`${corrected}\`, \`${type}\`)">Open</p></div>`)
     })
 }
 
