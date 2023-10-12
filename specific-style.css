@@ -26,7 +26,7 @@
 
 body {
     background: var(--black);
-    font-family:'Courier New', Courier, monospace;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     color: var(--snow);
     margin: 0;
     padding: 10px;
@@ -61,4 +61,62 @@ body {
 
 .specific-audio::-webkit-media-controls-panel {
     background-color: var(--rose-quartz);
+}
+
+#information-container {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px var(--amber) solid;
+    border-radius: 5px;
+    display: grid;
+    grid-template-rows: 1fr 3fr;
+    grid-template-columns: 3fr 1fr;
+    gap: 5px;
+    background: #9992;
+}
+
+.info-piece {
+    border: var(--snow) 1px solid;
+    border-radius: 5px;
+    padding: 0.75em;
+    background: rgba(0, 0, 0, 10);
+}
+
+#information {
+    grid-area: 1 / 1 / 1 / 1;
+    display:flex;
+    padding: 0.25em;
+    flex-direction: column;
+    justify-content: left;
+    align-content: flex-start;
+}
+
+#file-description {
+    grid-area: 2 / 1 / 2 / 2;
+}
+
+#file-manipulation {
+    grid-column: 2 / 2;
+    grid-row: 1 / span 2;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: stretch;
+    gap: 5px;
+}
+
+#file-manipulation > button {
+    background: none;
+    background-color: var(--night);
+    border: 1px var(--denim) solid;
+    color: var(--snow);
+    border-radius: 2px;
+    text-align: left;
+    cursor: pointer;
+    padding: 3px 10px;
+    transition: background-color 200ms ease-in-out;
+}
+
+#file-manipulation > button:hover {
+    background-color: var(--paynes-gray);
 }
