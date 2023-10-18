@@ -1,0 +1,21 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    background: white;
+    color: black;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#confirmation-button {
+    background: none;
+    padding: 5px 7px;
+    background-color: rgb(52, 232, 49);
+    border: green 3px solid;
+    color: black;
+    font-weight: bold;
+    border-radius: 2px;
+}

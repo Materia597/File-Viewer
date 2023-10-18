@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convert Format</title>
+    <link rel="stylesheet" href="./convert style.css">
+</head>
+<body>
+
+    <div id="main-options">
+        <label for="file-select">
+            File Select: 
+            <input type="text" readonly>
+        </label>
+
+        <label for="new-format">
+            New format
+            <select name="new-format" id="new-format-select">
+                <optgroup label="Images">
+                    <option value="convert:jpg">.jpg</option>
+                    <option value="convert:png">.png</option>
+                </optgroup>
+
+                <optgroup label="Moving Images">
+                    <option value="convert:gif">.gif</option>
+                    <option value="convert:webp">.webp</option>
+                </optgroup>
+
+                <optgroup label="Videos">
+                    <option value="convert:webm">.webm</option>
+                    <option value="convert:mp4">.mp4</option>
+                    <option value="convert:avi">.avi</option>
+                    <option value="convert:mov">.mov</option>
+                    <option value="convert:wmv">.wmv</option>
+                </optgroup>
+
+            </select>
+        </label>
+
+        <label for="replace">
+            <input type="checkbox" name="replace" id="going-to-replace">
+            Replace
+        </label>
+
+        <label for="copy's-name">
+            Name:
+            <input type="text" name="copy's-name" id="name-of-copy">
+        </label>
+        
+        <button>Select location</button>
+    </div>
+
+    <div id="result-buttons">
+        <button id="confirmation-button">Confirm</button>
+        <button id="cancel-button" onclick="window.alert('Are you sure you want to cancel?')">Cancel</button>
+    </div>
+
+</body>
+</html>
