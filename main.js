@@ -73,9 +73,18 @@ const getFilesByFilter = (filterObject) => {
         }
     }
 
+    let fileOutputLimit = filterObject.limit
+    let filteredFilesWithLimit;
+    
+    
+    if(fileOutputLimit === undefined || fileOutputLimit === 0) {
+        filteredFilesWithLimit = filteredFilesList
+    } else {
+        filteredFilesWithLimit =  filteredFilesList.slice(0, fileOutputLimit)
+    }
 
     return {
-        filteredFiles: filteredFilesList,
+        filteredFiles: filteredFilesWithLimit,
         videoFormats: filterObject.filter.videos.formats,
         imageFormats: filterObject.filter.images.formats,
         audioFormats: filterObject.filter.audio.formats

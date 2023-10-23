@@ -37,6 +37,12 @@ btn.addEventListener('click', async () => {
     filePathElement.innerText = filePath
 })
 
+
+//Code responsible for calling the function to get the files.
+/**
+ *  @param {boolean} 
+ */
+
 goButton.addEventListener('click', () => {
     if(filePathElement.innerText === "") { 
         showError("Please Select a folder to open");
@@ -66,7 +72,7 @@ goButton.addEventListener('click', () => {
 
     let filterObject = {
         directory: filePathElement.innerText,
-        limit: outputLimit.value,
+        limit: Number(outputLimit.value),
         offset: outputOffset.value,
         filter: {
             videos: {
@@ -85,7 +91,6 @@ goButton.addEventListener('click', () => {
     }
 
     //console.log(filterObject)
-
     //getFiles(filePathElement.innerText)
     getFiles(filterObject)
 })
