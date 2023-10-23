@@ -39,9 +39,6 @@ btn.addEventListener('click', async () => {
 
 
 //Code responsible for calling the function to get the files.
-/**
- *  @param {boolean} 
- */
 
 goButton.addEventListener('click', () => {
     if(filePathElement.innerText === "") { 
