@@ -272,7 +272,7 @@ const createWindow = () => {
         }
     })
 
-    win.loadFile('index.html')
+    win.loadFile('./home/index.html')
 }
 
 const specificWindow = () => {
@@ -300,7 +300,7 @@ const carouselWindow = () => {
         }
     })
 
-    carWin.loadFile('carousel-window.html')
+    carWin.loadFile('./carousel/carousel-window.html')
 }
 
 
