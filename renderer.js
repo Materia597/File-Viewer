@@ -336,7 +336,7 @@ const formatFilesUsingOutsourcedFilter = (filteredFiles, filterObject) => {
         //outputArea.insertAdjacentHTML('beforeend', `<div class="output-container">${elementString}<p onclick="window.newWindow.specificNew(\`${new URL(file.fullPath)}\`, \`${type}\`)">Open</p></div>`)
     
         //testing for macos version
-        outputArea.insertAdjacentHTML('beforeend', `<div class="output-container">${elementString}<p onclick="window.newWindow.specificNew(\`${corrected}\`, \`${type}\`)">Open</p></div>`)
+        outputArea.insertAdjacentHTML('beforeend', `<div class="output-container">${elementString}<p class="file-name">${file.name}</p><p class="open-file" onclick="window.newWindow.specificNew(\`${corrected}\`, \`${type}\`)">Open</p></div>`)
     })
 }
 

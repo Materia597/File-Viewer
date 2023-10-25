@@ -105,12 +105,18 @@ input[type="number"] {
     padding: 5px;
 }
 
-.output-container p {
+.output-container .open-file {
     background: var(--night);
-    height: 1.5em;
     border-radius: 5px;
     display: block;
     cursor: pointer;
+}
+
+.file-name {
+    display: block;
+    color: var(--snow);
+    text-align: left;
+    height:fit-content;
 }
 
 .file-output {
