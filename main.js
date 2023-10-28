@@ -41,6 +41,10 @@ async function handleFileOpen() {
     return returnObject
 }
 
+/**
+ * Takes files in specified directory and applies the provided filters
+ * @param {object} filterObject The object containing the filters
+ */
 const getFilesByFilter = (filterObject) => {
     let directory = filterObject.directory
     let fileFormats = []
@@ -91,12 +95,14 @@ const getFilesByFilter = (filterObject) => {
         filteredFilesWithLimit =  filteredFilesList.slice(0, fileOutputLimit)
     }
 
-    return {
+    let newFilter = {
         filteredFiles: filteredFilesWithLimit,
         videoFormats: filterObject.filter.videos.formats,
         imageFormats: filterObject.filter.images.formats,
         audioFormats: filterObject.filter.audio.formats
     }
+
+    return newFilter
     //return filteredFilesList
 }
 
@@ -123,24 +129,6 @@ ipcMain.on('files:getFiles', (_event, filter) => {
     
     _event.reply('files:receiveFiles', getFilesByFilter(filter))
     return;
-    
-    //Legacy, no filter implementation
-    /*
-    let files = fs.readdirSync(direct)
-    let filePaths = []
-    files.forEach(file => {
-        filePaths.push(
-            {
-                fullPath: path.resolve(direct, file),
-                name: file,
-                extension: path.extname(file)
-            }
-        )
-    })
-
-    //console.log(filePaths)
-    _event.reply('files:receiveFiles' ,filePaths )
-    */
 })
 
 
@@ -236,7 +224,11 @@ const videoConvert = (file, newFormat) => {
 //--------------------------------------------------------------------------------------------------------------------
 //Window types
 
-
+/**
+ * Creates a new window with the file location specified.
+ * @param {string} windowPath The path of the file to open.
+ * @throws {Error} If path is not an allowed location.
+ */
 const specifyWindow = (windowPath) => {
     const availableWindows = [
         './home/index.html',
@@ -246,7 +238,7 @@ const specifyWindow = (windowPath) => {
     
     
     if(typeof(windowPath) !== "string") throw new TypeError("Path must be a string")
-    if(!availableWindows.includes(windowPath)) return
+    if(!availableWindows.includes(windowPath)) throw new Error("Path must belong to pre-specified parameters");
 
     const win = new BrowserWindow({
         width: 800,
