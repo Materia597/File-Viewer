@@ -25,8 +25,9 @@ img.media, video.media {
 }
 
 
-#comic-holder > img, #comic-holder > video {
+#comic-holder > img, #comic-holder > video, #comic-holder > audio {
     display: block;
+    background: #0004;
     margin: 0 0 2em 0;
     width: 100vw;
     height: 100vh;

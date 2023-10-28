@@ -154,10 +154,10 @@ window.electronAPI.receiveFiles((_event, files) => {
             formatFilesDefault(finalIn[0], finalIn[1], finalIn[2])
             toTopButton.style.visibility = "visible";
             break;
-        case "Collection":
+        case "Comic":
             window.openNewWindow.newWindowWithMultipleFiles('./collection/collection-window.html', createFilter())
             break;
-        case "Comic":
+        case "Collection":
             openCarousel();
     }
 

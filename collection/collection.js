@@ -17,6 +17,9 @@ window.openNewWindow.receiveFileList((_event, fileList) => {
             if(extension === ".webp" || extension === ".gif") componentString += "repeat"
             componentString += "/>"
         }
+        if(fileList.audioFormats.includes(extension)) {
+            componentString = `<audio src="${file.fullPath}" controls></audio>`
+        }
 
         comicList.insertAdjacentHTML('beforeend', componentString)
     })
