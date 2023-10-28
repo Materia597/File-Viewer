@@ -10,9 +10,11 @@ const ffmpeg = require('fluent-ffmpeg');
 ffmpeg.setFfmpegPath(ffmpegStatic);
 
 
+//find a better solution to this
 let tempFullFileAccess;
 let carouselSlidesDirect;
 
+let temporaryFilesList;
 
 
 async function handleFolderOpen() {
@@ -170,6 +172,14 @@ ipcMain.on('get:carousel-data', (_event) => {
     _event.reply('receive:carousel-data', filesFiltered)
 })
 
+//--------------------------------------------------------------------------------------------------------------------
+//Collection Window code
+
+
+
+
+
+
 
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -205,7 +215,8 @@ ipcMain.on('change:file:convert-format', (_event, filePath, newFormat) => {
     videoConvert(filePath, newFormat)
 })
 
-
+//--------------------------------------------------------------------------------------------------------------------
+//Format Changing
 
 const videoConvert = (file, newFormat) => {
     return;
@@ -221,8 +232,44 @@ const videoConvert = (file, newFormat) => {
         .on('error', (error) => {console.error(error)})
 }
 
+
+
+//--------------------------------------------------------------------------------------------------------------------
+//Generalized Opening Windows
+
+ipcMain.on('new-window:inititialize', (_event, filePath, directory) => {
+
+    //open the new window
+    specifyWindow(filePath)
+})
+
+ipcMain.on('new-window:filtered-initialize', (_event, windowPath, filterObject) => {
+    //open the window last so it is certain that all operations are completed beforehand
+
+    let filteredFiles = getFilesByFilter(filterObject)
+    temporaryFilesList = filteredFiles;
+    specifyWindow(windowPath)
+})
+
+ipcMain.on('new-window:request-file-list', (_event) => {
+    
+    let fileList = temporaryFilesList
+    temporaryFilesList = []
+    _event.reply('new-window:send-file-list', fileList)
+})
+
 //--------------------------------------------------------------------------------------------------------------------
 //Window types
+
+const availableWindows = [
+    './home/index.html',
+    './specific file/media-viewer.html',
+    './carousel/carousel-window.html',
+    './collection/collection-window.html'
+]
+
+exports.availableWindows = availableWindows
+
 
 /**
  * Creates a new window with the file location specified.
@@ -230,16 +277,42 @@ const videoConvert = (file, newFormat) => {
  * @throws {Error} If path is not an allowed location.
  */
 const specifyWindow = (windowPath) => {
-    const availableWindows = [
-        './home/index.html',
-        './specific file/media-viewer.html',
-        './carousel/carousel-window.html'
-    ]
+    
     
     
     if(typeof(windowPath) !== "string") throw new TypeError("Path must be a string")
-    if(!availableWindows.includes(windowPath)) throw new Error("Path must belong to pre-specified parameters");
+    //if(!availableWindows.includes(windowPath)) throw new Error("Path must belong to pre-specified parameters");
 
+    const win = new BrowserWindow({
+        width: 800,
+        height: 600,
+        minWidth: 600,
+        minHeight: 400,
+        webPreferences: {
+            preload: path.join(__dirname, './preload.js')
+        }
+    })
+
+    console.log(path.join(__dirname, './preload.js'))
+
+    win.loadFile(windowPath)
+}
+
+const mainWindow = () => {
+    const win = new BrowserWindow({
+        width: 800,
+        height: 600,
+        minWidth: 600,
+        minHeight: 400,
+        webPreferences: {
+            preload: path.join(__dirname, '../preload.js')
+        }
+    })
+
+    win.loadFile('./home/index.html')
+}
+
+const createWindow = () => {
     const win = new BrowserWindow({
         width: 800,
         height: 600,
@@ -249,10 +322,8 @@ const specifyWindow = (windowPath) => {
             preload: path.join(__dirname, 'preload.js')
         }
     })
-
-    win.loadFile(windowPath)
+    win.loadFile('./home/index.html')
 }
-
 
 //--------------------------------------------------------------------------------------------------------------------
 //Electron stuff
@@ -261,11 +332,11 @@ app.whenReady().then(() => {
     ipcMain.handle('dialog:openFile', handleFileOpen)
     ipcMain.handle('ping', () => 'pong')
     ipcMain.handle('get:full-file', () => tempFullFileAccess)
-    //createWindow()
-    specifyWindow('./home/index.html')
+    createWindow()
+    //mainWindow()
 
     app.on('activate', () => {
-        if (BrowserWindow.getAllWindows().length === 0) /*createWindow()*/ specifyWindow('./home/index.html')
+        if (BrowserWindow.getAllWindows().length === 0) createWindow() // mainWindow()
     })
 })
 

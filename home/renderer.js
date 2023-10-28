@@ -52,6 +52,14 @@ goButton.addEventListener('click', () => {
         errorArea.innerText = ""
     }
     
+    
+    let filterObject = createFilter()
+    //console.log(filterObject)
+    //getFiles(filePathElement.innerText)
+    getFiles(filterObject)
+})
+
+const createFilter = () => {
     let imageFormats = []
     document.querySelectorAll("[data-image-format]").forEach(format => {
         if(format.checked) imageFormats.push(format.dataset.format)
@@ -70,7 +78,7 @@ goButton.addEventListener('click', () => {
     let filterObject = {
         directory: filePathElement.innerText,
         limit: Number(outputLimit.value),
-        offset: outputOffset.value,
+        offset: Number(outputOffset.value),
         filter: {
             videos: {
                 disabled: !videoEnable.checked,
@@ -87,10 +95,8 @@ goButton.addEventListener('click', () => {
         }
     }
 
-    //console.log(filterObject)
-    //getFiles(filePathElement.innerText)
-    getFiles(filterObject)
-})
+    return filterObject
+}
 
 
 document.getElementById('to-top').addEventListener('click', () => {window.location.href = "#settings"})
@@ -149,6 +155,8 @@ window.electronAPI.receiveFiles((_event, files) => {
             toTopButton.style.visibility = "visible";
             break;
         case "Collection":
+            window.openNewWindow.newWindowWithMultipleFiles('./collection/collection-window.html', createFilter())
+            break;
         case "Comic":
             openCarousel();
     }
@@ -342,4 +350,18 @@ const formatFilesUsingOutsourcedFilter = (filteredFiles, filterObject) => {
 
 const tryNew = () => {
     window.newWindow.specificEmpty()
+}
+
+
+const openOnTheSide = () => {
+    window.openNewWindow.newWindowWithMultipleFiles("./collection/collection-window.html", {
+        directory: "C:\\Users\\Mater\\OneDrive\\Desktop\\memes",
+        limit: 0,
+        offset: 0,
+        filter: {
+            videos: {disabled:false, formats: ['.mp4', '.webm']},
+            images: {disabled:false, formats: ['.jpg', '.png', '.gif', '.webp']},
+            audio: {disabled:false, formats: []}
+        }
+    })
 }
