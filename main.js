@@ -45,7 +45,15 @@ const getFilesByFilter = (filterObject) => {
     let directory = filterObject.directory
     let fileFormats = []
 
-    if(!filterObject.filter.videos.disabled) {
+    const fileTypes = ["videos", "images", "audio"]
+
+    fileTypes.forEach(type => {
+        if(!filterObject.filter[type].disabled) {
+            filterObject.filter[type].formats.forEach(format => fileFormats.push(format))
+        }
+    })
+
+    /*if(!filterObject.filter.videos.disabled) {
         filterObject.filter.videos.formats.forEach(format => fileFormats.push(format))
     }
     if(!filterObject.filter.images.disabled) {
@@ -53,7 +61,7 @@ const getFilesByFilter = (filterObject) => {
     }
     if(!filterObject.filter.audio.disabled) {
         filterObject.filter.audio.formats.forEach(format => fileFormats.push(format))
-    }
+    }*/
 
     let filesUnfiltered = fs.readdirSync(directory)
     let filteredFilesList = []
@@ -178,7 +186,8 @@ ipcMain.on('files:getFiles', (_event, filter) => {
 //Carousel window code
 
 ipcMain.on('new:carousel-window', (_event, direct) => {
-    carouselWindow()
+    //carouselWindow()
+    specifyWindow('./carousel/carousel-window.html')
     carouselSlidesDirect = direct
 })
 
@@ -217,11 +226,14 @@ ipcMain.on('get:carousel-data', (_event) => {
 //Specific Window code
 
 ipcMain.on('open:specific-empty', (_event) => {
-    specificWindow()
+    //specificWindow()
+    specifyWindow('./specific file/media-viewer.html')
 })
 
 ipcMain.on('open:specific-populated', (_event, file, type) => {
-    specificWindow()
+    //specificWindow()
+    specifyWindow('./specific file/media-viewer.html')
+
     const fullPath = decodeURI(file)
     const name = path.basename(fullPath)
     const ext = path.extname(name)
@@ -261,6 +273,34 @@ const videoConvert = (file, newFormat) => {
 
 //--------------------------------------------------------------------------------------------------------------------
 //Window types
+
+
+const specifyWindow = (windowPath) => {
+    const availableWindows = [
+        './home/index.html',
+        './specific file/media-viewer.html',
+        './carousel/carousel-window.html'
+    ]
+    
+    
+    if(typeof(windowPath) !== "string") throw new TypeError("Path must be a string")
+    if(!availableWindows.includes(windowPath)) return
+
+    const win = new BrowserWindow({
+        width: 800,
+        height: 600,
+        minWidth: 600,
+        minHeight: 400,
+        webPreferences: {
+            preload: path.join(__dirname, 'preload.js')
+        }
+    })
+
+    win.loadFile(windowPath)
+}
+
+
+
 const createWindow = () => {
     const win = new BrowserWindow({
         width: 800,
@@ -286,7 +326,7 @@ const specificWindow = () => {
         }
     })
 
-    specWin.loadFile('media-viewer.html')
+    specWin.loadFile('./specific file/media-viewer.html')
 }
 
 const carouselWindow = () => {
@@ -311,10 +351,11 @@ app.whenReady().then(() => {
     ipcMain.handle('dialog:openFile', handleFileOpen)
     ipcMain.handle('ping', () => 'pong')
     ipcMain.handle('get:full-file', () => tempFullFileAccess)
-    createWindow()
+    //createWindow()
+    specifyWindow('./home/index.html')
 
     app.on('activate', () => {
-        if (BrowserWindow.getAllWindows().length === 0) createWindow()
+        if (BrowserWindow.getAllWindows().length === 0) /*createWindow()*/ specifyWindow('./home/index.html')
     })
 })
 
