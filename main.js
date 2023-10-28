@@ -100,44 +100,6 @@ const getFilesByFilter = (filterObject) => {
     //return filteredFilesList
 }
 
-const getFilesByAdvancedFilter = (filterObject) => {
-    let directory = fileObject.directory
-    
-    let fileFormats = []
-    if(!filterObject.filter.videos.disabled) {
-        filterObject.filter.videos.formats.forEach(format => fileFormats.push(format))
-    }
-    if(!filterObject.filter.images.disabled) {
-        filterObject.filter.images.formats.forEach(format => fileFormats.push(format))
-    }
-
-    let unfilteredFiles = fs.readdirSync(directory)
-    let filteredFiles = []
-    let numOfVideoFiles = 0
-    let numOfImageFiles = 0
-    unfilteredFiles.forEach(file => {
-        let fullPath = path.resolve(directory, file)
-        let extension = path.extname(fullPath)
-        if(fileFormats.includes(extension)) {
-            filteredFiles.push({
-                fullPath: fullPath,
-                name: file,
-                extension: extension
-            })
-            if(filterObject.filter.videos.formats.includes(extension)) numOfVideoFiles++
-            if(filterObject.filter.images.formats.includes(extension)) numOfImageFiles++
-        }
-    })
-
-
-    return {
-        number_of_videos: numOfVideoFiles,
-        number_of_images: numOfImageFiles,
-        fileList: filteredFiles
-    }
-}
-
-
 
 /*
     {
@@ -297,50 +259,6 @@ const specifyWindow = (windowPath) => {
     })
 
     win.loadFile(windowPath)
-}
-
-
-
-const createWindow = () => {
-    const win = new BrowserWindow({
-        width: 800,
-        height: 600,
-        minWidth: 600,
-        minHeight: 400,
-        webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
-        }
-    })
-
-    win.loadFile('./home/index.html')
-}
-
-const specificWindow = () => {
-    const specWin = new BrowserWindow({
-        width: 800,
-        height: 600,
-        minWidth: 600,
-        minHeight: 400,
-        webPreferences:{
-            preload: path.join(__dirname, 'preload.js')
-        }
-    })
-
-    specWin.loadFile('./specific file/media-viewer.html')
-}
-
-const carouselWindow = () => {
-    const carWin = new BrowserWindow({
-        width: 800,
-        height: 600,
-        minWidth: 600,
-        minHeight: 400,
-        webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
-        }
-    })
-
-    carWin.loadFile('./carousel/carousel-window.html')
 }
 
 
