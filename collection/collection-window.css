@@ -86,6 +86,17 @@ img.media, video.media {
     }
 
     video {
-        display: none;
+        display: none !important;
+        page-break-after: avoid;
+    }
+
+    video[controls] {
+        display: none !important;
+        page-break-after: avoid;
+    }
+
+    audio {
+        display: none !important;
+        page-break-after: avoid;
     }
 }
