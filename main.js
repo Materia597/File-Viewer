@@ -12,7 +12,7 @@ ffmpeg.setFfmpegPath(ffmpegStatic);
 
 //find a better solution to this
 let tempFullFileAccess;
-let carouselSlidesDirect;
+let carouselSlidesFilter;
 
 let temporaryFilesList;
 
@@ -137,17 +137,19 @@ ipcMain.on('files:getFiles', (_event, filter) => {
 //--------------------------------------------------------------------------------------------------------------------
 //Carousel window code
 
-ipcMain.on('new:carousel-window', (_event, direct) => {
+ipcMain.on('new:carousel-window', (_event, filterObject) => {
     //carouselWindow()
     specifyWindow('./carousel/carousel-window.html')
-    carouselSlidesDirect = direct
+    carouselSlidesFilter = filterObject
 })
 
 ipcMain.on('get:carousel-data', (_event) => {
     
-    let direct = decodeURI(carouselSlidesDirect)
+    //let direct = decodeURI(carouselSlidesDirect)
 
-    let files = fs.readdirSync(direct)
+    let filesFiltered = getFilesByFilter(carouselSlidesFilter)
+
+    /*let files = fs.readdirSync(direct)
     let filesFull = []
     files.forEach(file => {
         filesFull.push({
@@ -165,9 +167,9 @@ ipcMain.on('get:carousel-data', (_event) => {
         if(validExtension.includes((file.extension).toLowerCase())) {
             filesFiltered.push(file)
         }
-    })
+    })*/
 
-    if(filesFull.length === 0) _event.reply('error', "There are no files of acceptible type in the selected folder")
+   // if(filesFull.length === 0) _event.reply('error', "There are no files of acceptible type in the selected folder")
 
     _event.reply('receive:carousel-data', filesFiltered)
 })
@@ -293,23 +295,7 @@ const specifyWindow = (windowPath) => {
         }
     })
 
-    console.log(path.join(__dirname, './preload.js'))
-
     win.loadFile(windowPath)
-}
-
-const mainWindow = () => {
-    const win = new BrowserWindow({
-        width: 800,
-        height: 600,
-        minWidth: 600,
-        minHeight: 400,
-        webPreferences: {
-            preload: path.join(__dirname, '../preload.js')
-        }
-    })
-
-    win.loadFile('./home/index.html')
 }
 
 const createWindow = () => {

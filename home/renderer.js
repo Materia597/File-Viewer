@@ -112,8 +112,8 @@ const openMedia = (fullFile) => {
 
 
 
-const openCarousel = (directory = filePathElement.innerText) => {
-    window.carouselWindow.newInstance(directory)
+const openCarousel = (filterObject = createFilter()) => {
+    window.carouselWindow.newInstance(filterObject)
 }
 
 

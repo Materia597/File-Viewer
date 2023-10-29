@@ -69,6 +69,10 @@ img.media, video.media {
         background: #4445;
     }
     
+    button {
+        display: none;
+        page-break-after: avoid;
+    }
     
     img.media {
         display: block;

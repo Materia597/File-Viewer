@@ -45,7 +45,7 @@ body {
 }
 
 .specific-file {
-    display: inline;
+    display: flexbox;
     width: 100%;
     height: 100%;
     max-width: 100%;

@@ -36,7 +36,7 @@ contextBridge.exposeInMainWorld('newWindow', {
 
 //for carousel window
 contextBridge.exposeInMainWorld('carouselWindow', {
-    newInstance: (directory) => ipcRenderer.send('new:carousel-window', directory),
+    newInstance: (filterObject) => ipcRenderer.send('new:carousel-window', filterObject),
     getData: () => ipcRenderer.send('get:carousel-data'),
     receiveData: (callback) => ipcRenderer.on('receive:carousel-data', callback)
 })

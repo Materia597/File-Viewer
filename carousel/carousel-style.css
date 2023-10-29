@@ -40,7 +40,8 @@ body {
 /*adjests the images in the li's with class "slide"
 aspect ratio is maintained and position is set to center it*/
 .slide > img,
-.slide > video {
+.slide > video,
+.slide > audio {
     display: block;
     width: 100vw;
     height: 100vh;
@@ -48,6 +49,13 @@ aspect ratio is maintained and position is set to center it*/
     max-height: 100vh; 
     object-fit: contain;
     object-position: center;
+}
+
+.slide > audio {
+    position: absolute;
+    left: 15vw;
+    bottom: 30vh;
+    max-width: 70vw;
 }
 
 /*This is the slide that is currently visisble*/
