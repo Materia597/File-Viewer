@@ -48,30 +48,26 @@ async function handleFileOpen() {
  * @param {object} filterObject The object containing the filters
  */
 const getFilesByFilter = (filterObject) => {
+    
+    
     let directory = filterObject.directory
+    
+    
+    //compiles all of the files formats in the filterObject into one list for easier use
     let fileFormats = []
-
     const fileTypes = ["videos", "images", "audio"]
-
     fileTypes.forEach(type => {
         if(!filterObject.filter[type].disabled) {
             filterObject.filter[type].formats.forEach(format => fileFormats.push(format))
         }
     })
 
-    /*if(!filterObject.filter.videos.disabled) {
-        filterObject.filter.videos.formats.forEach(format => fileFormats.push(format))
-    }
-    if(!filterObject.filter.images.disabled) {
-        filterObject.filter.images.formats.forEach(format => fileFormats.push(format))
-    }
-    if(!filterObject.filter.audio.disabled) {
-        filterObject.filter.audio.formats.forEach(format => fileFormats.push(format))
-    }*/
 
+    //gets all files in the specified directory, these are unfiltered
     let filesUnfiltered = fs.readdirSync(directory)
     let filteredFilesList = []
 
+    //takes all the files in the unfiltered list, removes all files that do not have the formats from the list above, and creates objects for each of the remaining files
     for(let index = 0; index < filesUnfiltered.length; index++) {
         let file = filesUnfiltered[index]
         let fullPath = path.resolve(directory, file)
@@ -90,13 +86,14 @@ const getFilesByFilter = (filterObject) => {
     let fileOutputLimit = filterObject.limit
     let filteredFilesWithLimit;
     
-    
+    //determines if there should be a limit applied to the number of files returned. If the limit is defined and not 0, then a limit is applied, otherwise no limit is applied
     if(fileOutputLimit === undefined || fileOutputLimit === 0) {
         filteredFilesWithLimit = filteredFilesList
     } else {
         filteredFilesWithLimit =  filteredFilesList.slice(0, fileOutputLimit)
     }
 
+    //the object to be returned, containging the video, audio, and image formats. It also contains the list of files from the steps above
     let newFilter = {
         filteredFiles: filteredFilesWithLimit,
         videoFormats: filterObject.filter.videos.formats,

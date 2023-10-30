@@ -148,12 +148,6 @@ window.electronAPI.receiveFiles((_event, files) => {
             })
             toTopButton.style.visibility = "visible"
             break;
-        case "Seperate":
-            let finalIn = doFileChecks(files.filteredFiles)
-            if(!finalIn) break;
-            formatFilesDefault(finalIn[0], finalIn[1], finalIn[2])
-            toTopButton.style.visibility = "visible";
-            break;
         case "Comic":
             window.openNewWindow.newWindowWithMultipleFiles('./collection/collection-window.html', createFilter())
             break;
@@ -216,18 +210,6 @@ const doFileChecks = (files) => {
 const videoEnable = document.getElementById('media:allow-videos')
 const imageEnable = document.getElementById('media:allow-images')
 const audioEnable = document.getElementById('media:allow-audio')
-
-const allow_jpg = document.getElementById('format:allow-jpg')
-const allow_png = document.getElementById('format:allow-png')
-const allow_gif = document.getElementById('format:allow-gif')
-const allow_webp = document.getElementById("format:allow-webp")
-
-const allow_mp4 = document.getElementById('format:allow-mp4')
-const allow_webm = document.getElementById('format:allow-webm')
-const allow_avi = document.getElementById('format:allow-avi')
-const allow_mov = document.getElementById('format:allow-mov')
-const allow_wmv = document.getElementById('format:allow-wmv')
-const allow_mkv = document.getElementById('format:allow-mkv')
 
 videoEnable.addEventListener('change', () => {
     let videoOptions = document.querySelectorAll('[data-video-format]')
