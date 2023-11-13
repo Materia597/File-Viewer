@@ -10,7 +10,7 @@
 
     <div id="main-options">
         <label for="file-select">
-            File Select: 
+            File Selected: 
             <input type="text" readonly>
         </label>
 
@@ -39,8 +39,8 @@
         </label>
 
         <label for="replace">
+            Replace Original:
             <input type="checkbox" name="replace" id="going-to-replace">
-            Replace
         </label>
 
         <label for="copy's-name">
@@ -49,12 +49,34 @@
         </label>
         
         <button>Select location</button>
+        
     </div>
 
+    <div id="advanced-options">
+        Advanced Options:
+
+        <div id="video-specific">
+            Video Options:
+
+            <label for="">
+                Create Clip: 
+                <label for=""></label>
+            </label>
+
+        </div>
+
+    </div>
+
+    <hr>
+
     <div id="result-buttons">
-        <button id="confirmation-button">Confirm</button>
+        <button id="confirmation-button">Convert</button>
         <button id="cancel-button" onclick="window.alert('Are you sure you want to cancel?')">Cancel</button>
     </div>
 
+    <label for="converting-progress">30%</label>
+    <progress id="converting-progress" max="100" value="30">30%</progress>
+
+    </iframe>
 </body>
 </html>
