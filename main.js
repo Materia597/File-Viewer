@@ -125,7 +125,7 @@ const getFilesByFilter = (filterObject) => {
 
 
 ipcMain.on('files:getFiles', (_event, filter) => {
-    
+
     _event.reply('files:receiveFiles', getFilesByFilter(filter))
     return;
 })
@@ -238,6 +238,7 @@ const videoConvert = (file, newFormat) => {
 
 ipcMain.on('new-window:inititialize', (_event, filePath, directory) => {
 
+    console.log('initializing')
     //open the new window
     specifyWindow(filePath)
 })
@@ -264,7 +265,8 @@ const availableWindows = [
     './home/index.html',
     './specific file/media-viewer.html',
     './carousel/carousel-window.html',
-    './collection/collection-window.html'
+    './collection/collection-window.html',
+    './file manipulation pages/convert format.html'
 ]
 
 exports.availableWindows = availableWindows
@@ -277,7 +279,7 @@ exports.availableWindows = availableWindows
  */
 const specifyWindow = (windowPath) => {
     
-    
+    console.log('activated')
     
     if(typeof(windowPath) !== "string") throw new TypeError("Path must be a string")
     //if(!availableWindows.includes(windowPath)) throw new Error("Path must belong to pre-specified parameters");
@@ -291,6 +293,8 @@ const specifyWindow = (windowPath) => {
             preload: path.join(__dirname, './preload.js')
         }
     })
+
+    console.log(windowPath)
 
     win.loadFile(windowPath)
 }
@@ -316,6 +320,7 @@ app.whenReady().then(() => {
     ipcMain.handle('ping', () => 'pong')
     ipcMain.handle('get:full-file', () => tempFullFileAccess)
     createWindow()
+    //specifyWindow('./file manipulation pages/convert format.html')
     //mainWindow()
 
     app.on('activate', () => {

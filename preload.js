@@ -6,7 +6,8 @@ const availableWindows = [
     './home/index.html',
     './specific file/media-viewer.html',
     './carousel/carousel-window.html',
-    './collection/collection-window.html'
+    './collection/collection-window.html',
+    './file manipulation pages/convert format.html'
 ]
 
 
@@ -50,7 +51,8 @@ contextBridge.exposeInMainWorld('collectionWindow', {
 contextBridge.exposeInMainWorld('openNewWindow', {
     newWindow: (filePath, directory) => {
         if(!availableWindows.includes(filePath)) throw new Error("filePath is not allowed")
-        ipcRenderer.send('new-window:initialize', filePath, directory)
+        console.log('sending')
+        ipcRenderer.send('new-window:inititialize', filePath, directory)
     },
     newWindowWithMultipleFiles: (windowPath, filterObject) => {
         //if(!availableWindows.includes(windowPath)) throw new Error("specified windowPath is not allowed")

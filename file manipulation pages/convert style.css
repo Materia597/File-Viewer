@@ -2,12 +2,25 @@
     box-sizing: border-box;
 }
 
+:root {
+    --black: #000500;
+    --french-gray: #ACADBC;
+    --cool-gray: #9B9ECE;
+    --clate-blue: #6665DD;
+    --palestine-blue: #473BF0;
+    --prussian-blue: #13293D;
+    --lapis-lazuli: #006494;
+    --cerulean: #247BA0;
+    --celestial-blue: #1B98E0;
+    --alice-blue: #E8F1F2;
+}
+
 body {
-    background: white;
-    color: black;
+    background: var(--prussian-blue);
+    color: var(--alice-blue);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 10px;
 }
 
 #confirmation-button {
@@ -23,9 +36,27 @@ body {
 #main-options {
     width: 75%;
     display: grid;
+    color: var(--french-gray);
+    font-weight: bold;
     grid-template-rows: repeat(3, 1fr);
     grid-template-columns: repeat(3, 1fr);
     gap: 5px 15px;
+    width: 100%;
+    padding: 10px;
+    border: 1px var(--alice-blue) solid;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    background: var(--palestine-blue);
+}
+
+#main-options select {
+    background: none;
+    background-color: var(--lapis-lazuli);
+    padding: 2px;
+    font-weight: bold;
+    border: 2px var(--alice-blue) solid;
+    border-radius: 5px;
+    color: var(--clate-blue)
 }
 
 progress {
