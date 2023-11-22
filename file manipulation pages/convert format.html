@@ -5,29 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Convert Format</title>
     <link rel="stylesheet" href="./convert style.css">
+    <script src="./convert format.js" defer></script>
 </head>
 <body>
 
     <div id="main-options">
         <label for="file-select">
             File Selected: 
-            <input type="text" readonly>
+            <input type="text" id="selected-file's-name" readonly>
         </label>
 
         <label for="new-format">
             New format
             <select name="new-format" id="new-format-select">
-                <optgroup label="Images">
+                <optgroup label="Images" id="image-formats">
                     <option value="convert:jpg">.jpg</option>
                     <option value="convert:png">.png</option>
                 </optgroup>
 
-                <optgroup label="Moving Images">
+                <optgroup label="Moving Images" id="moving-image-formats">
                     <option value="convert:gif">.gif</option>
                     <option value="convert:webp">.webp</option>
                 </optgroup>
 
-                <optgroup label="Videos">
+                <optgroup label="Videos" id="video-formats">
                     <option value="convert:webm">.webm</option>
                     <option value="convert:mp4">.mp4</option>
                     <option value="convert:avi">.avi</option>
@@ -50,7 +51,7 @@
         
         <div id="select-location">
             <button>Select location</button>
-            <p>s</p>
+            <input type="text" readonly>
         </div>
         
         

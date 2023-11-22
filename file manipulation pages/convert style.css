@@ -3,7 +3,10 @@
 }
 
 :root {
-
+    --confirm: #62C370;
+    --cancel: #D72638;
+    --confirm-dark: #478d51;
+    --cancel-dark: #961e2a;
 }
 
 body {
@@ -13,13 +16,47 @@ body {
 }
 
 #confirmation-button {
+    width: 80px;
+    padding: 5px;
     background: none;
-    padding: 5px 7px;
-    background-color: rgb(52, 232, 49);
-    border: green 3px solid;
-    color: black;
+    background-color: var(--confirm);
+    border: none;
+    color: white;
     font-weight: bold;
+    font-size: 1em;
+    text-align: center;
+    cursor: pointer;
     border-radius: 2px;
+    opacity: 1;
+}
+
+
+#result-buttons {
+    position: absolute;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+#confirmation-button:hover {
+    background-color: var(--confirm-dark);
+}
+
+#cancel-button {
+    width: 80px;
+    text-align: center;
+    padding: 5px;
+    background-color: var(--cancel);
+    color: white;
+    border: none;
+    border-radius: 2px;
+    font-size: 1em;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+#cancel-button:hover {
+    background: var(--cancel-dark);
 }
 
 #main-options {
@@ -54,8 +91,34 @@ body {
 
 #select-location {
     display: flex;
+    gap: 5px;
     width: 100%;
     grid-area: 3 / 1 / span 1 / span 1;
+}
+
+#select-location > button, 
+#select-location > input[type="text"] {
+    align-self: center;
+}
+
+#select-location > button {
+    background-color: white;
+    width: 30%;
+}
+
+#select-location > input[type="text"] {
+    background: #dfdfdf;
+    width: 70%;
+    border: none;
+    padding: 2px;
+    font-size: 1em;
+    color: black;
+    border-radius: 2px;
+}
+
+#select-location > p:hover {
+    background: #d0d0d0;
+    color: #444;
 }
 
 #main-options button:hover {
@@ -74,4 +137,20 @@ body {
 
 progress {
     width: 30%;
+}
+
+label {
+    width: 100%;
+    display: flex;
+    justify-content:space-between;
+}
+
+label > input[type="text"] {
+    width: 75%;
+    border: 1px gray solid;
+}
+
+label > input[type="text"]:focus {
+    border: 1px gray solid;
+    outline: none;
 }
