@@ -48,6 +48,12 @@ contextBridge.exposeInMainWorld('collectionWindow', {
     getData: () => ipcRenderer.send('get:collection-data')
 })
 
+contextBridge.exposeInMainWorld('convertion', {
+    convertVideo: (filePath, newFormat) => {ipcRenderer.send('change:file:convert-format', filePath, newFormat)},
+    convertionProgress: (callback) => {ipcRenderer.on('convert:progress', callback)},
+    convertionComplete: (callback) => {ipcRenderer.on('convert:complete', callback)}
+})
+
 contextBridge.exposeInMainWorld('openNewWindow', {
     newWindow: (filePath, directory) => {
         if(!availableWindows.includes(filePath)) throw new Error("filePath is not allowed")

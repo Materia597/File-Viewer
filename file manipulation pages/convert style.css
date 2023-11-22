@@ -106,7 +106,7 @@ body {
     width: 30%;
 }
 
-#select-location > input[type="text"] {
+#select-location > p {
     background: #dfdfdf;
     width: 70%;
     border: none;
@@ -142,15 +142,28 @@ progress {
 label {
     width: 100%;
     display: flex;
+    align-content: center;
     justify-content:space-between;
+    align-items: flex-start;
+    padding: 0px 5px;
+    margin: 0;
 }
 
-label > input[type="text"] {
-    width: 75%;
+label > input[type="text"], label > .highlight {
+    align-self: center;
     border: 1px gray solid;
+}
+
+label > p.highlight, label > input[type="text"].highlight {
+    width: 75%;
+    height: 1.25em;
 }
 
 label > input[type="text"]:focus {
     border: 1px gray solid;
     outline: none;
+}
+
+#name-of-copy {
+    font-size: 1em;
 }

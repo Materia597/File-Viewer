@@ -211,23 +211,25 @@ ipcMain.on('open:specific-populated', (_event, file, type) => {
 })
 
 ipcMain.on('change:file:convert-format', (_event, filePath, newFormat) => {
-    videoConvert(filePath, newFormat)
+    videoConvert(filePath, newFormat, _event)
 })
 
 //--------------------------------------------------------------------------------------------------------------------
 //Format Changing
 
-const videoConvert = (file, newFormat) => {
-    return;
+const videoConvert = (file, newFormat, _event) => {
     //console.log('function ran')
     //console.log(`${path.parse(file).name}${newFormat}`, `${path.resolve(path.dirname(file), path.parse(file).name + newFormat)}`)
     ffmpeg()
         .input(file)
         .saveToFile(`${path.resolve(path.dirname(file), path.parse(file).name + newFormat)}`)
         .on('progress', (progress) => {
-            //console.log(`Processing: ${Math.floor(progress.percent)}% done`)
+            _event.reply('convert:progress', progress)
         })
-        .on('end', () => console.log('FFmpeg has finished'))
+        .on('end', () => {
+            console.log('FFmpeg has finished')
+            _event.reply('convert:complete', 0)
+        })
         .on('error', (error) => {console.error(error)})
 }
 

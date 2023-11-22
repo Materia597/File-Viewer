@@ -12,6 +12,18 @@ videoGroup.style.display = "none"
 const fileNameDisplay = document.getElementById("selected-file's-name")
 
 
+const nameField = document.getElementById('name-of-copy')
+const formatOption = document.getElementById('new-format-select')
+const replaceOriginalCheckbox = document.getElementById('going-to-replace')
+
+
+const confirmButton = document.getElementById('confirmation-button')
+const cancelButton = document.getElementById('cancel-button')
+
+
+const progressBar = document.getElementById('converting-progress')
+
+
 /**
  * Changes the options available for the file depending on what kind of file it is (video, image, audio, etc.)
  */
@@ -34,4 +46,19 @@ const setupOptions = (mediaType, fileName) => {
     fileNameDisplay.innerText = fileName
 
 
+}
+
+window.convertion.convertionProgress((_event, progress) => {
+    console.log(progress)
+    progressBar.value = progress.percent
+})
+
+window.convertion.convertionComplete((_event, dummy) => {
+    console.log("Conversion Compelte")
+    progressBar.value = 100
+})
+
+
+const convertRaw = (filePath, newFormat) => {
+    window.convertion.convertVideo(filePath, newFormat)
 }
