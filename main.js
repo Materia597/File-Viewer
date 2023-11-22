@@ -3,6 +3,8 @@ const { dialog } = require('electron')
 const path = require('path')
 const fs = require('fs')
 
+const { imageFormats, movingImageFormats, videoFormats, audioFormats } = require('./media file formats.js')
+
 const ffmpegStatic = require('ffmpeg-static');
 const ffmpeg = require('fluent-ffmpeg');
 
@@ -245,6 +247,19 @@ ipcMain.on('new-window:inititialize', (_event, filePath, directory) => {
     specifyWindow(filePath)
 })
 
+let tempFileNameHolder
+
+ipcMain.on('new-window:init-with-one', (_event, windowPath, fileName) => {
+    tempFileNameHolder = fileName
+    console.log(windowPath)
+    specifyWindow(windowPath)
+})
+
+ipcMain.on('new-window:request-single-file', (_event) => {
+    _event.reply('new-window:send-single-file', createFileObject(tempFileNameHolder))
+    tempFileNameHolder = ""
+})
+
 ipcMain.on('new-window:filtered-initialize', (_event, windowPath, filterObject) => {
     //open the window last so it is certain that all operations are completed beforehand
 
@@ -259,6 +274,21 @@ ipcMain.on('new-window:request-file-list', (_event) => {
     temporaryFilesList = []
     _event.reply('new-window:send-file-list', fileList)
 })
+
+
+
+//--------------------------------------------------------------------------------------------------------------------
+
+
+const createFileObject = (filePath) => {
+    return {
+        fullPath: filePath,
+        name: path.basename(filePath),
+        extension: path.extname(filePath),
+        fullName: path.basename(filePath) + path.extname(filePath)
+    }
+}
+
 
 //--------------------------------------------------------------------------------------------------------------------
 //Window types

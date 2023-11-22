@@ -236,53 +236,6 @@ audioEnable.addEventListener('change', () => {
     })
 })
 
-
-const formatFilesDefault = (fileList, limit, start) => {
-
-    console.log(fileList)
-
-    if(fileList.length === 0) {
-        showError("Your filter has resulted in zero files being output.")
-        return;
-    }
-    let elementString;
-    //console.log(fileList[0])
-    //creates the outputs and places them into the output area if they exist
-    for(let index = start; index < limit + start && fileList[index]; index++) {
-        //console.log(index)
-        //console.log(limit+start)
-        switch(fileList[index].extension.toLowerCase()) {
-            case ".mp4":
-            case ".webm":
-            case ".mkv":
-                if (!videoEnable.checked) continue
-                elementString = `<video class="local-video file-output" src="${fileList[index].fullPath}" controls></video>`      
-                break;
-            case ".png":
-            case ".jpg":
-            //case ".JPG":
-            //case ".PNG":
-                if (!imageEnable.checked) continue
-                elementString = `<img class='local-image file-output' src="${fileList[index].fullPath}">`                         
-                break;
-            case ".gif":
-                if (!allow_gif.checked) continue;
-                elementString = `<img class='local-image file-output' src="${fileList[index].fullPath}" repeat>`                               
-                break;
-            default:
-                //console.log(`"${files[index].extension}" is not a supported file extension`)
-                break;
-        }
-
-        outputArea.insertAdjacentHTML('beforeend', `<div class="output-container">${elementString}<p onclick="window.newWindow.specificNew(\`${new URL(fileList[index].fullPath)}\`)">Open</p></div>`)
-    }
-
-    if(outputArea.children.length === 0) {
-        toTopButton.style.visibility = "hidden";
-        showError("Your filter has resulted in no files being shown")
-    }
-}
-
 /**
  * @argument filteredFiles :    The files that were previously filtered, this is an array of object which includes fullPath, name, and extension
  * @argument filterObject :    The formats that were used as part of the filter, this will be an object like: {videoFormats: [], imageFormats: []}
@@ -332,18 +285,4 @@ const formatFilesUsingOutsourcedFilter = (filteredFiles, filterObject) => {
 
 const tryNew = () => {
     window.newWindow.specificEmpty()
-}
-
-
-const openOnTheSide = () => {
-    window.openNewWindow.newWindowWithMultipleFiles("./collection/collection-window.html", {
-        directory: "C:\\Users\\Mater\\OneDrive\\Desktop\\memes",
-        limit: 0,
-        offset: 0,
-        filter: {
-            videos: {disabled:false, formats: ['.mp4', '.webm']},
-            images: {disabled:false, formats: ['.jpg', '.png', '.gif', '.webp']},
-            audio: {disabled:false, formats: []}
-        }
-    })
 }

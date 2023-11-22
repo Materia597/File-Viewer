@@ -3,7 +3,7 @@ const mediaContainer = document.getElementById('media-container')
 const titleBox = document.getElementById('title-box')
 const dateAdded = document.getElementById('date-added')
 
-
+const convertButton = document.getElementById('convert')
 
 const insertFile = (fullFile) => {
     console.log('received')
@@ -33,7 +33,10 @@ const insertFile = (fullFile) => {
     }
     console.log("type:", type)
 
-    
+    console.log(`Path:\t${path}`)
+    convertButton.addEventListener('click', () => {
+        window.openNewWindow.newWindowWithOneFile('./file manipulation pages/convert format.html', path)
+    })
 
     document.getElementById('specific-file').src = path
     //mediaContainer.src = path

@@ -1,4 +1,5 @@
 const { contextBridge, ipcRenderer } = require('electron')
+//const { imageFormats, movingImageFormats, videoFormats, audioFormats } = require('./media file formats.js')
 
 //const {availableWindows} = require("./main.js")
 
@@ -69,6 +70,15 @@ contextBridge.exposeInMainWorld('openNewWindow', {
     },
     receiveFileList: (callback) => {
         ipcRenderer.on('new-window:send-file-list', callback)
+    },
+    newWindowWithOneFile: (windowPath, fileName) => {
+        ipcRenderer.send('new-window:init-with-one', windowPath, fileName)
+    },
+    requestSingleFile: () => {
+        ipcRenderer.send('new-window:request-single-file')
+    },
+    receiveSingleFile: (callback) => {
+        ipcRenderer.on('new-window:send-single-file', callback)
     }
 })
 

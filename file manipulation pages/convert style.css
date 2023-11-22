@@ -166,4 +166,11 @@ label > input[type="text"]:focus {
 
 #name-of-copy {
     font-size: 1em;
+    height: fit-content;
+    text-wrap: wrap;
+}
+
+#selected-files-name {
+    height:fit-content;
+    text-wrap:wrap;
 }
