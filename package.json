@@ -23,6 +23,7 @@
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
     "ffmpeg-static": "^5.2.0",
-    "fluent-ffmpeg": "^2.1.2"
+    "fluent-ffmpeg": "^2.1.2",
+    "node-libcurl": "^3.0.0"
   }
 }

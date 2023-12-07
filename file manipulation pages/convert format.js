@@ -23,7 +23,7 @@ const cancelButton = document.getElementById('cancel-button')
 
 const progressBar = document.getElementById('converting-progress')
 
-
+const mediaPreviewContainer = document.getElementById('media-preview')
 
 const videoFormats = ['.webm', '.mp4', '.avi', 'mkv']
 const imageFormats = ['.jpg', '.jpeg', '.png']
@@ -37,16 +37,19 @@ const audioFormats = ['.mp3', '.ogg']
  * @param {string} mediaType The media type of the file (video, image, etc.)
  * @param {string} fileName The name of the file
  */
-const setupOptions = (mediaType) => {
+const setupOptions = (mediaType, filePath) => {
     switch(mediaType) {
         case "image":
             imageGroup.style.display = "initial"
+            mediaPreviewContainer.insertAdjacentHTML('beforeend', `<img class="preview" src="${filePath}">`)
             break;
         case "moving image":
             movingImageGroup.style.display = "initial"
+            mediaPreviewContainer.insertAdjacentHTML('beforeend', `<img class="preview" src=\`${filePath}\` repeat>`)
             break;
         case "video":
             videoGroup.style.display = "initial"
+            mediaPreviewContainer.insertAdjacentHTML('beforeend', `<video class="preview" src=\`${filePath}\` controls></video>`)
             break;
         default:
             console.error("No Option was chosen")
@@ -69,9 +72,11 @@ window.openNewWindow.receiveSingleFile((_event, file) => {
     if(imageFormats.includes(extension)) type = "image"
     if(movingImageFormats.includes(extension)) type = "moving image"
     
-    setupOptions(type)
+    console.log("FullPath", file.fullPath)
 
+    setupOptions(type, file.fullPath)
     isMatchingFormat(extension)
+
 
 })
 
