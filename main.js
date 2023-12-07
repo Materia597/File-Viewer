@@ -5,6 +5,7 @@ const fs = require('fs')
 
 const { imageFormats, movingImageFormats, videoFormats, audioFormats } = require('./media file formats.js')
 
+
 const ffmpegStatic = require('ffmpeg-static');
 const ffmpeg = require('fluent-ffmpeg');
 
@@ -212,8 +213,21 @@ ipcMain.on('open:specific-populated', (_event, file, type) => {
     //console.log('sent')
 })
 
-ipcMain.on('change:file:convert-format', (_event, filePath, newFormat) => {
-    videoConvert(filePath, newFormat, _event)
+ipcMain.on('change:file:convert-format', (_event, filePath, newFormat, newName = "", newDirectory = "") => {
+    if(videoFormats.includes(newFormat)) {
+        //videoConvert(filePath, newFormat, _event)
+        if(newName !== "" || newDirectory !== "") {
+            videoConvertMoreOptions(filePath, newFormat, newName === "" ? path.parse(filePath).name : newName, newDirectory === "" ? path.dirname(filePath) : newDirectory, _event)
+        }
+        videoConvert(filePath, newFormat, _event)
+        return
+    }
+    if(imageFormats.includes(newFormat)) {
+        imageConvert(filePath, newFormat, _event)
+        return
+    }
+
+    
 })
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -233,6 +247,47 @@ const videoConvert = (file, newFormat, _event) => {
             _event.reply('convert:complete', 0)
         })
         .on('error', (error) => {console.error(error)})
+}
+
+/**
+ * 
+ * @param {string} file 
+ * @param {string} newFormat 
+ * @param {string} newName 
+ * @param {string} newDirectory 
+ * @param {_event} _event 
+ */
+const videoConvertMoreOptions = (file, newFormat, newName, newDirectory, _event) => {
+    ffmpeg()
+        .input(file)
+        .saveToFile(`${newDirectory}/${newName}.${newFormat}`)
+        .on('progress', (progress) => {
+            _event.reply('convert:progress', progress)
+        })
+        .on('end', () => {
+            console.log('FFmpeg has finished')
+            _event.reply('convert:complete', 0)
+        })
+        .on('error', (error) => {
+            console.log(error)
+        })
+}
+
+const imageConvert = (file, newFormat, _event) => {
+    ffmpeg()
+        .input(file)
+        .addOption("-vframes 1")
+        .saveToFile(`${path.resolve(path.dirname(file), path.parse(file).name + newFormat)}`)
+        .on('progress', (progress) => {
+            _event.reply('convert:progress', progress)
+        })
+        .on('end', () => {
+            console.log("FFmpeg has finished")
+            _event.reply('convert:complete', 0)
+        })
+        .on('error', (error) => {
+            console.log(error)
+        })
 }
 
 
@@ -351,6 +406,15 @@ app.whenReady().then(() => {
     ipcMain.handle('dialog:openFile', handleFileOpen)
     ipcMain.handle('ping', () => 'pong')
     ipcMain.handle('get:full-file', () => tempFullFileAccess)
+
+    ipcMain.handle('data/formats:videos', () => videoFormats)
+    ipcMain.handle('data/formats:audio', () => audioFormats)
+    ipcMain.handle('data/formats:images', () => imageFormats)
+    ipcMain.handle('data/formats:moving_images', () => movingImageFormats)  
+
+
+
+
     createWindow()
     //specifyWindow('./file manipulation pages/convert format.html')
     //mainWindow()

@@ -1,4 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron')
+
+
 //const { imageFormats, movingImageFormats, videoFormats, audioFormats } = require('./media file formats.js')
 
 //const {availableWindows} = require("./main.js")
@@ -10,6 +12,14 @@ const availableWindows = [
     './collection/collection-window.html',
     './file manipulation pages/convert format.html'
 ]
+
+contextBridge.exposeInMainWorld('formats', {
+    videoFormats: () => ipcRenderer.invoke('data/formats:videos'),
+    audioFormats: () => ipcRenderer.invoke('data/formats:audio'),
+    imageFormats: () => ipcRenderer.invoke('data/formats:images'),
+    movingImageFormats: () => ipcRenderer.invoke('data/formats:moving_images') 
+})
+
 
 
 contextBridge.exposeInMainWorld('versions', {
@@ -50,7 +60,7 @@ contextBridge.exposeInMainWorld('collectionWindow', {
 })
 
 contextBridge.exposeInMainWorld('convertion', {
-    convertVideo: (filePath, newFormat) => {ipcRenderer.send('change:file:convert-format', filePath, newFormat)},
+    convertVideo: (filePath, newFormat) => {ipcRenderer.send('change:file:convert-format', filePath, newFormat, newName, newDirectory)},
     convertionProgress: (callback) => {ipcRenderer.on('convert:progress', callback)},
     convertionComplete: (callback) => {ipcRenderer.on('convert:complete', callback)}
 })

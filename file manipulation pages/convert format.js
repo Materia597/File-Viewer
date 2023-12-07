@@ -49,7 +49,7 @@ const setupOptions = (mediaType, filePath) => {
             break;
         case "video":
             videoGroup.style.display = "initial"
-            mediaPreviewContainer.insertAdjacentHTML('beforeend', `<video class="preview" src=\`${filePath}\` controls></video>`)
+            mediaPreviewContainer.insertAdjacentHTML('beforeend', `<video class="preview" src="${new String(filePath)}" controls></video>`)
             break;
         default:
             console.error("No Option was chosen")
@@ -97,8 +97,14 @@ window.convertion.convertionProgress((_event, progress) => {
 })
 
 window.convertion.convertionComplete((_event, dummy) => {
-    console.log("Conversion Compelte")
+    //console.log("Conversion Complete")
     progressBar.value = 100
+    window.alert("Conversion Complete")
+})
+
+confirmButton.addEventListener('click', () => {
+    let newFormat = formatOption.value
+    
 })
 
 
