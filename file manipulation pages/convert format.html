@@ -20,6 +20,7 @@
         <label for="new-format">
             <p>New format</p>
             <select name="new-format" id="new-format-select" class="highlight">
+                <option value=""></option>
                 <optgroup label="Images" id="image-formats">
                     <option value=".jpg">.jpg</option>
                     <option value=".png">.png</option>
@@ -40,21 +41,6 @@
 
             </select>
         </label>
-
-        <label for="replace">
-            <p>Replace Original:</p>
-            <input type="checkbox" name="replace" id="going-to-replace" class="highlight">
-        </label>
-
-        <label for="copy's-name">
-            <p>Name:</p>
-            <input type="text" name="copy's-name" id="name-of-copy" class="highlight">
-        </label>
-        
-        <div id="select-location">
-            <button>Select location</button>
-            <p id="output-file-location"></p>
-        </div>
         
         
     </div>
@@ -81,7 +67,7 @@
         <button id="cancel-button" onclick="window.alert('Are you sure you want to cancel?')">Cancel</button>
     </div>
 
-    <label for="converting-progress">30%</label>
+    <label for="converting-progress" id="progress-label">30%</label>
     <progress id="converting-progress" max="100" value="30.5">30%</progress>
 
     </iframe>

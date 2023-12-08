@@ -1,6 +1,3 @@
-console.log("convert format.js has started")
-console.log(window.openNewWindow)
-
 const imageGroup = document.getElementById('image-formats')
 const movingImageGroup = document.getElementById('moving-image-formats')
 const videoGroup = document.getElementById('video-formats')
@@ -11,10 +8,7 @@ videoGroup.style.display = "none"
 
 const fileNameDisplay = document.getElementById("selected-files-name")
 
-
-const nameField = document.getElementById('name-of-copy')
 const formatOption = document.getElementById('new-format-select')
-const replaceOriginalCheckbox = document.getElementById('going-to-replace')
 
 
 const confirmButton = document.getElementById('confirmation-button')
@@ -22,14 +16,16 @@ const cancelButton = document.getElementById('cancel-button')
 
 
 const progressBar = document.getElementById('converting-progress')
+const progressLabel = document.getElementById('progress-label')
 
 const mediaPreviewContainer = document.getElementById('media-preview')
 
-const videoFormats = ['.webm', '.mp4', '.avi', 'mkv']
+const videoFormats = ['.webm', '.mp4', '.avi', '.mkv']
 const imageFormats = ['.jpg', '.jpeg', '.png']
 const movingImageFormats = ['.gif', '.webp']
 const audioFormats = ['.mp3', '.ogg']
 
+let currentFile = {}
 
 
 /**
@@ -62,17 +58,15 @@ const getFile = () => {
 }
 
 window.openNewWindow.receiveSingleFile((_event, file) => {
-    console.log(file)
     fileNameDisplay.innerText = file.name
 
+    currentFile = file
     let type = ""
 
     let extension = file.extension.toLowerCase()
     if(videoFormats.includes(extension)) type = "video"
     if(imageFormats.includes(extension)) type = "image"
     if(movingImageFormats.includes(extension)) type = "moving image"
-    
-    console.log("FullPath", file.fullPath)
 
     setupOptions(type, file.fullPath)
     isMatchingFormat(extension)
@@ -94,6 +88,7 @@ getFile()
 window.convertion.convertionProgress((_event, progress) => {
     console.log(progress)
     progressBar.value = progress.percent
+    progressLabel.innerHTML = `${Math.round(progress.percent)}%`
 })
 
 window.convertion.convertionComplete((_event, dummy) => {
@@ -104,10 +99,10 @@ window.convertion.convertionComplete((_event, dummy) => {
 
 confirmButton.addEventListener('click', () => {
     let newFormat = formatOption.value
-    
+    window.changeFiles.convert(currentFile.fullPath, newFormat)
 })
 
 
-const convertRaw = (filePath, newFormat) => {
-    window.convertion.convertVideo(filePath, newFormat)
+const convertRaw = (filePath, newFormat, newName, newDirectory) => {
+    window.convertion.convertVideo(filePath, newFormat, newName, newDirectory)
 }

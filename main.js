@@ -144,32 +144,7 @@ ipcMain.on('new:carousel-window', (_event, filterObject) => {
 })
 
 ipcMain.on('get:carousel-data', (_event) => {
-    
-    //let direct = decodeURI(carouselSlidesDirect)
-
     let filesFiltered = getFilesByFilter(carouselSlidesFilter)
-
-    /*let files = fs.readdirSync(direct)
-    let filesFull = []
-    files.forEach(file => {
-        filesFull.push({
-            fullPath: path.resolve(direct, file),
-            name: file,
-            extension: path.extname(file)
-        })
-    })
-
-
-    let validExtension = ['.gif', '.mp4', '.webm', '.png', '.jpg']
-
-    let filesFiltered = []
-    filesFull.forEach(file => {
-        if(validExtension.includes((file.extension).toLowerCase())) {
-            filesFiltered.push(file)
-        }
-    })*/
-
-   // if(filesFull.length === 0) _event.reply('error', "There are no files of acceptible type in the selected folder")
 
     _event.reply('receive:carousel-data', filesFiltered)
 })
@@ -213,12 +188,8 @@ ipcMain.on('open:specific-populated', (_event, file, type) => {
     //console.log('sent')
 })
 
-ipcMain.on('change:file:convert-format', (_event, filePath, newFormat, newName = "", newDirectory = "") => {
+ipcMain.on('change:file:convert-format', (_event, filePath, newFormat) => {
     if(videoFormats.includes(newFormat)) {
-        //videoConvert(filePath, newFormat, _event)
-        if(newName !== "" || newDirectory !== "") {
-            videoConvertMoreOptions(filePath, newFormat, newName === "" ? path.parse(filePath).name : newName, newDirectory === "" ? path.dirname(filePath) : newDirectory, _event)
-        }
         videoConvert(filePath, newFormat, _event)
         return
     }
@@ -249,31 +220,10 @@ const videoConvert = (file, newFormat, _event) => {
         .on('error', (error) => {console.error(error)})
 }
 
-/**
- * 
- * @param {string} file 
- * @param {string} newFormat 
- * @param {string} newName 
- * @param {string} newDirectory 
- * @param {_event} _event 
- */
-const videoConvertMoreOptions = (file, newFormat, newName, newDirectory, _event) => {
-    ffmpeg()
-        .input(file)
-        .saveToFile(`${newDirectory}/${newName}.${newFormat}`)
-        .on('progress', (progress) => {
-            _event.reply('convert:progress', progress)
-        })
-        .on('end', () => {
-            console.log('FFmpeg has finished')
-            _event.reply('convert:complete', 0)
-        })
-        .on('error', (error) => {
-            console.log(error)
-        })
-}
 
 const imageConvert = (file, newFormat, _event) => {
+    console.log(file)
+    console.log((`${path.resolve(path.dirname(file), path.parse(file).name + newFormat)}`))
     ffmpeg()
         .input(file)
         .addOption("-vframes 1")
@@ -282,13 +232,14 @@ const imageConvert = (file, newFormat, _event) => {
             _event.reply('convert:progress', progress)
         })
         .on('end', () => {
-            console.log("FFmpeg has finished")
+            console.log("FFmpeg has finished, line 260")
             _event.reply('convert:complete', 0)
         })
         .on('error', (error) => {
             console.log(error)
         })
 }
+
 
 
 
@@ -336,11 +287,12 @@ ipcMain.on('new-window:request-file-list', (_event) => {
 
 
 const createFileObject = (filePath) => {
+    console.log(path.basename(filePath).slice(0, path.basename(filePath).length - path.extname(filePath)))
     return {
         fullPath: filePath,
         name: path.basename(filePath),
         extension: path.extname(filePath),
-        fullName: path.basename(filePath) + path.extname(filePath)
+        directory: path.dirname(filePath)
     }
 }
 
@@ -365,9 +317,7 @@ exports.availableWindows = availableWindows
  * @throws {Error} If path is not an allowed location.
  */
 const specifyWindow = (windowPath) => {
-    
-    console.log('activated')
-    
+        
     if(typeof(windowPath) !== "string") throw new TypeError("Path must be a string")
     //if(!availableWindows.includes(windowPath)) throw new Error("Path must belong to pre-specified parameters");
 
@@ -380,8 +330,6 @@ const specifyWindow = (windowPath) => {
             preload: path.join(__dirname, './preload.js')
         }
     })
-
-    console.log(windowPath)
 
     win.loadFile(windowPath)
 }
