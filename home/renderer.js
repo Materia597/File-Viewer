@@ -286,3 +286,5 @@ const formatFilesUsingOutsourcedFilter = (filteredFiles, filterObject) => {
 const tryNew = () => {
     window.newWindow.specificEmpty()
 }
+
+console.log(window.formats.videoFormats())

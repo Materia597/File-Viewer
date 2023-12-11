@@ -14,10 +14,10 @@ const availableWindows = [
 ]
 
 contextBridge.exposeInMainWorld('formats', {
-    videoFormats: () => ipcRenderer.invoke('data/formats:videos'),
-    audioFormats: () => ipcRenderer.invoke('data/formats:audio'),
-    imageFormats: () => ipcRenderer.invoke('data/formats:images'),
-    movingImageFormats: () => ipcRenderer.invoke('data/formats:moving_images') 
+    videoFormats: () => ipcRenderer.invoke('data/formats:videos').then(result => {return result}),
+    audioFormats: () => ipcRenderer.invoke('data/formats:audio').then(result => {return result}),
+    imageFormats: () => ipcRenderer.invoke('data/formats:images').then(result => {return result}),
+    movingImageFormats: () => ipcRenderer.invoke('data/formats:moving_images').then(result => {return result}) 
 })
 
 
@@ -95,5 +95,9 @@ contextBridge.exposeInMainWorld('openNewWindow', {
 
 //for file conversion (to be added)
 contextBridge.exposeInMainWorld('changeFiles', {
-    convert: (filePath, newFormat) => ipcRenderer.send('change:file:convert-format', filePath, newFormat)
+    convert: (filePath, newFormat) => {
+        return;
+        //use at later date
+        ipcRenderer.send('change:file:convert-format', filePath, newFormat)
+    }
 })

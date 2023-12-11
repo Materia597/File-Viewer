@@ -353,12 +353,7 @@ app.whenReady().then(() => {
     ipcMain.handle('dialog:openFolder', handleFolderOpen)
     ipcMain.handle('dialog:openFile', handleFileOpen)
     ipcMain.handle('ping', () => 'pong')
-    ipcMain.handle('get:full-file', () => tempFullFileAccess)
-
-    ipcMain.handle('data/formats:videos', () => {videoFormats})
-    ipcMain.handle('data/formats:audio', () => audioFormats)
-    ipcMain.handle('data/formats:images', () => imageFormats)
-    ipcMain.handle('data/formats:moving_images', () => movingImageFormats)  
+    ipcMain.handle('get:full-file', () => tempFullFileAccess) 
 
 
 
