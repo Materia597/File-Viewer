@@ -14,6 +14,25 @@ const pathClearButton = document.getElementById('clear-filePath')
 const displayStyle = document.getElementById('display-style')
 
 
+let videoFormats
+let imageFormats
+let audioFormats
+let movingImageFormats
+
+const assignFormatValues = async () => {
+    videoFormats = await window.formats.videoFormats()
+    imageFormats = await window.formats.imageFormats()
+    audioFormats = await window.formats.audioFormats()
+    movingImageFormats = await window.formats.movingImageFormats()
+
+    console.log(videoFormats)
+    console.log(imageFormats)
+    console.log(audioFormats)
+    console.log(movingImageFormats)
+}
+
+assignFormatValues()
+
 //document.getElementById('filter-options').style.display = "none"
 
 pathClearButton.addEventListener('click', () => {
@@ -287,4 +306,5 @@ const tryNew = () => {
     window.newWindow.specificEmpty()
 }
 
-console.log(window.formats.videoFormats())
+
+

@@ -20,10 +20,24 @@ const progressLabel = document.getElementById('progress-label')
 
 const mediaPreviewContainer = document.getElementById('media-preview')
 
-const videoFormats = ['.webm', '.mp4', '.avi', '.mkv']
-const imageFormats = ['.jpg', '.jpeg', '.png']
-const movingImageFormats = ['.gif', '.webp']
-const audioFormats = ['.mp3', '.ogg']
+let videoFormats
+let imageFormats
+let audioFormats
+let movingImageFormats
+
+const assignFormatValues = async () => {
+    videoFormats = await window.formats.videoFormats()
+    imageFormats = await window.formats.imageFormats()
+    audioFormats = await window.formats.audioFormats()
+    movingImageFormats = await window.formats.movingImageFormats()
+
+    console.log(videoFormats)
+    console.log(imageFormats)
+    console.log(audioFormats)
+    console.log(movingImageFormats)
+}
+
+assignFormatValues()
 
 let currentFile = {}
 

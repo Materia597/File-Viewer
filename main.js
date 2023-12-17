@@ -355,7 +355,10 @@ app.whenReady().then(() => {
     ipcMain.handle('ping', () => 'pong')
     ipcMain.handle('get:full-file', () => tempFullFileAccess) 
 
-
+    ipcMain.handle('data/formats:videos', () => {return videoFormats})
+    ipcMain.handle('data/formats:images', () => {return imageFormats})
+    ipcMain.handle('data/formats:audio', () => {return audioFormats})
+    ipcMain.handle('data/formats:moving_images', () => {return movingImageFormats})
 
 
     createWindow()
