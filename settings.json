@@ -1,0 +1,31 @@
+{
+    "global": {
+        "preferedAudioVolume": 1,
+        "preferedVideoVolume": 1
+    },
+    "renderer": {
+        "pageSize": 150,
+        "window": {
+            "windowX": 100,
+            "windowY": 100,
+            "windowWidth": 800,
+            "windowHeight": 600
+        }
+    },
+    "carousel": {
+        "window": {
+            "windowX": 100,
+            "windowY": 100,
+            "windowWidth": 800,
+            "windowHeight": 600
+        }
+    },
+    "collection": {
+        "window": {
+            "windowX": 100,
+            "windowY": 100,
+            "windowWidth": 800,
+            "windowHeight": 600
+        }
+    }
+}
