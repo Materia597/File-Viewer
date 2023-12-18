@@ -35,6 +35,8 @@ const assignFormatValues = async () => {
     console.log(imageFormats)
     console.log(audioFormats)
     console.log(movingImageFormats)
+
+    getFile()
 }
 
 assignFormatValues()
@@ -77,6 +79,8 @@ window.openNewWindow.receiveSingleFile((_event, file) => {
     currentFile = file
     let type = ""
 
+    console.log("ok")
+
     let extension = file.extension.toLowerCase()
     if(videoFormats.includes(extension)) type = "video"
     if(imageFormats.includes(extension)) type = "image"
@@ -95,7 +99,7 @@ const isMatchingFormat = (format) => {
     }
 }
 
-getFile()
+
 
 
 
